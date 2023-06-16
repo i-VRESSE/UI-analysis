@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './SortableTable.css';
 
 interface Column {
@@ -50,12 +50,16 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
     return '';
   };
 
-  const sortedData = React.useMemo(() => {
+  const sortedData = useMemo(() => {
     const { sortKey, sortOrder } = sortState;
     if (sortKey) {
       return [...data].sort((a, b) => {
-        if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
-        if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
+        if (a[sortKey] < b[sortKey]) {
+          return sortOrder === 'asc' ? -1 : 1;
+        }
+        if (a[sortKey] > b[sortKey]) {
+          return sortOrder === 'asc' ? 1 : -1;
+        }
         return 0;
       });
     }
