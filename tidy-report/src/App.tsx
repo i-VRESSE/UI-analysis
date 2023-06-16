@@ -1,4 +1,4 @@
-import SortableTable from './components/SortableTable';
+import SortableTable from './components/SortableTable/SortableTable';
 import { data, columns } from './examples/TableData';
 
 const App = () => {
