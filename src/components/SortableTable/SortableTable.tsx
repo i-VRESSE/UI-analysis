@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import './SortableTable.css';
+import React, { useMemo, useState } from "react";
+import "./SortableTable.css";
 
 interface Column {
   key: string;
@@ -12,7 +12,7 @@ interface TableData {
 
 interface SortState {
   sortKey: string | null;
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
 }
 
 interface SortableTableProps {
@@ -23,7 +23,7 @@ interface SortableTableProps {
 const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
   const [sortState, setSortState] = useState<SortState>({
     sortKey: columns[0].key,
-    sortOrder: 'asc',
+    sortOrder: "asc",
   });
 
   const handleSort = (key: string) => {
@@ -31,12 +31,12 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
       if (prevSortState.sortKey === key) {
         return {
           sortKey: key,
-          sortOrder: prevSortState.sortOrder === 'asc' ? 'desc' : 'asc',
+          sortOrder: prevSortState.sortOrder === "asc" ? "desc" : "asc",
         };
       } else {
         return {
           sortKey: key,
-          sortOrder: 'asc',
+          sortOrder: "asc",
         };
       }
     });
@@ -45,9 +45,9 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
   const getSortIcon = (key: string) => {
     const { sortKey, sortOrder } = sortState;
     if (sortKey === key) {
-      return sortOrder === 'asc' ? '↕︎' : '↕︎';
+      return sortOrder === "asc" ? "↕︎" : "↕︎";
     }
-    return '';
+    return "";
   };
 
   const sortedData = useMemo(() => {
@@ -55,10 +55,10 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
     if (sortKey) {
       return [...data].sort((a, b) => {
         if (a[sortKey] < b[sortKey]) {
-          return sortOrder === 'asc' ? -1 : 1;
+          return sortOrder === "asc" ? -1 : 1;
         }
         if (a[sortKey] > b[sortKey]) {
-          return sortOrder === 'asc' ? 1 : -1;
+          return sortOrder === "asc" ? 1 : -1;
         }
         return 0;
       });

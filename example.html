@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Analysis web component</title>
-    <link href="https://esm.sh/@i-vresse/haddock3-analysis-components/dist/style.css" rel="stylesheet" />
+    <link
+      href="https://esm.sh/@i-vresse/haddock3-analysis-components/dist/style.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>
@@ -17,26 +20,26 @@
       }
     </script>
     <script type="module">
-      import {createRoot} from "react-dom"
-      import {createElement} from "react"
-      import {SortableTable} from "@i-vresse/haddock3-analysis-components"
+      import { createRoot } from "react-dom";
+      import { createElement } from "react";
+      import { SortableTable } from "@i-vresse/haddock3-analysis-components";
 
       const data = [
-        { id: 1, name: 'John', age: 25, location: 'New York' },
-        { id: 2, name: 'Alice', age: 32, location: 'London' },
-        { id: 3, name: 'Bob', age: 40, location: 'Paris' },
+        { id: 1, name: "John", age: 25, location: "New York" },
+        { id: 2, name: "Alice", age: 32, location: "London" },
+        { id: 3, name: "Bob", age: 40, location: "Paris" },
         // Add more data objects as needed
       ];
 
       const columns = [
-        { key: 'name', header: 'Name' },
-        { key: 'age', header: 'Age' },
-        { key: 'location', header: 'Location' },
+        { key: "name", header: "Name" },
+        { key: "age", header: "Age" },
+        { key: "location", header: "Location" },
       ];
 
-      createRoot(document.getElementById('root')).render(
+      createRoot(document.getElementById("root")).render(
         createElement(SortableTable, { data, columns })
-        )
+      );
     </script>
   </body>
 </html>
