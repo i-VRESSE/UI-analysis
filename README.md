@@ -42,5 +42,5 @@ This will render the ./index.html page with the src/App.tsx component.
 We are using [`prettier`](https://prettier.io). To format the code, run:
 
 ```bash
-npm format
+npm run format
 ```
