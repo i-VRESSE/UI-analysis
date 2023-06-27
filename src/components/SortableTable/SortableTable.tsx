@@ -18,9 +18,10 @@ interface SortState {
 interface SortableTableProps {
   data: TableData[];
   columns: Column[];
+  rows: Column[];
 }
 
-const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
+const SortableTable: React.FC<SortableTableProps> = ({ data, columns, rows }) => {
   const [sortState, setSortState] = useState<SortState>({
     sortKey: columns[0].key,
     sortOrder: "asc",
@@ -69,18 +70,24 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
   return (
     <table>
       <thead>
+        {rows.map((row) => (
         <tr>
-          {columns.map((column) => (
-            <th key={column.key} onClick={() => handleSort(column.key)}>
-              {column.header} {getSortIcon(column.key)}
-            </th>
+          <th onClick={() => handleSort(row.key)}>
+              {row.header} {getSortIcon(row.key)}
+          </th>
+          {sortedData.map((item) => (
+            <th>{item[row.key]}</th>
           ))}
         </tr>
+        ))}
       </thead>
       <tbody>
-        {sortedData.map((item, index) => (
-          <tr key={index}>
-            {columns.map((column) => (
+        {columns.map((column) => (
+          <tr>
+            <th key={column.key} onClick={() => handleSort(column.key)}>
+                {column.header} {getSortIcon(column.key)}
+            </th>
+            {sortedData.map((item) => (
               <td key={column.key}>{item[column.key]}</td>
             ))}
           </tr>

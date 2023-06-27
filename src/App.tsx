@@ -1,6 +1,6 @@
 import { Cluster, ClusterTable } from "./components/ClusterTable";
 import SortableTable from "./components/SortableTable/SortableTable";
-import { data, columns } from "./examples/TableData";
+import { data, columns, rows } from "./examples/TableData";
 
 const stat_labels = {
   score: "HADDOCK score [a.u.]",
@@ -28,7 +28,7 @@ const clusters: Cluster[] = [
 const App = () => {
   return (
     <div>
-      <SortableTable data={data} columns={columns} />;
+      <SortableTable data={data} columns={columns} rows={rows} />;
       <ClusterTable stat_labels={stat_labels} clusters={clusters} />;
     </div>
   );
