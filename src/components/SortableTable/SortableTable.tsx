@@ -21,7 +21,11 @@ interface SortableTableProps {
   rows: Column[];
 }
 
-const SortableTable: React.FC<SortableTableProps> = ({ data, columns, rows }) => {
+const SortableTable: React.FC<SortableTableProps> = ({
+  data,
+  columns,
+  rows,
+}) => {
   const [sortState, setSortState] = useState<SortState>({
     sortKey: columns[0].key,
     sortOrder: "asc",
@@ -71,21 +75,21 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns, rows }) =>
     <table>
       <thead>
         {rows.map((row) => (
-        <tr>
-          <th onClick={() => handleSort(row.key)}>
+          <tr>
+            <th onClick={() => handleSort(row.key)}>
               {row.header} {getSortIcon(row.key)}
-          </th>
-          {sortedData.map((item) => (
-            <th>{item[row.key]}</th>
-          ))}
-        </tr>
+            </th>
+            {sortedData.map((item) => (
+              <th>{item[row.key]}</th>
+            ))}
+          </tr>
         ))}
       </thead>
       <tbody>
         {columns.map((column) => (
           <tr>
             <th key={column.key} onClick={() => handleSort(column.key)}>
-                {column.header} {getSortIcon(column.key)}
+              {column.header} {getSortIcon(column.key)}
             </th>
             {sortedData.map((item) => (
               <td key={column.key}>{item[column.key]}</td>
