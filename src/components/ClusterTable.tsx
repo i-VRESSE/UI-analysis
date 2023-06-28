@@ -45,8 +45,8 @@ const transformClustersToData = (
     const { rank, id, size, best, stats } = cluster;
     const data: TableData = { rank, id, size, best };
 
-    Object.entries(stats).forEach(([statID, { mean }]) => {
-      data[statID] = mean;
+    Object.entries(stats).forEach(([statID,  stats ]) => {
+      data[statID] = stats;
     });
 
     return data;

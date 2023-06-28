@@ -7,7 +7,7 @@ interface Column {
 }
 
 interface TableData {
-  [key: string]: any;
+  [key: string]: { mean?: number; std?: number } | any;
 }
 
 interface SortState {
@@ -59,10 +59,19 @@ const SortableTable: React.FC<SortableTableProps> = ({
     const { sortKey, sortOrder } = sortState;
     if (sortKey) {
       return [...data].sort((a, b) => {
-        if (a[sortKey] < b[sortKey]) {
+        const valueA =
+          typeof a[sortKey] === "object" && a[sortKey]?.mean !== undefined
+            ? a[sortKey].mean
+            : a[sortKey];
+        const valueB =
+          typeof b[sortKey] === "object" && b[sortKey]?.mean !== undefined
+            ? b[sortKey].mean
+            : b[sortKey];
+
+        if (valueA < valueB) {
           return sortOrder === "asc" ? -1 : 1;
         }
-        if (a[sortKey] > b[sortKey]) {
+        if (valueA > valueB) {
           return sortOrder === "asc" ? 1 : -1;
         }
         return 0;
@@ -92,7 +101,15 @@ const SortableTable: React.FC<SortableTableProps> = ({
               {column.header} {getSortIcon(column.key)}
             </th>
             {sortedData.map((item) => (
-              <td key={column.key}>{item[column.key]}</td>
+              <td key={column.key}>
+                {typeof item[column.key] === "object" &&
+                item[column.key]?.mean !== undefined &&
+                item[column.key]?.std !== undefined ? (
+                  `${item[column.key].mean} ± ${item[column.key].std}`
+                ) : (
+                  item[column.key]
+                )}
+              </td>
             ))}
           </tr>
         ))}
