@@ -1,5 +1,8 @@
 import { ClusterTable } from "./components/ClusterTable";
 import { id_labels, stat_labels, clusters } from "./examples/TableData";
+import { data, headers, rows } from "./examples/TableData";
+import SortableTable from "./components/SortableTable/SortableTable";
+
 
 const App = () => {
   return (
@@ -10,6 +13,7 @@ const App = () => {
         clusters={clusters}
       />
       ;
+      {/* <SortableTable data={data} headers={headers} rows={rows}/> */}
     </div>
   );
 };

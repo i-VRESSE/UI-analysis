@@ -1,33 +1,38 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
-interface Column {
+interface Row {
   key: string;
-  header: string;
+  value: string;
+}
+
+interface Stats {
+  mean: number;
+  std: number;
 }
 
 interface TableData {
-  [key: string]: { mean?: number; std?: number } | any;
+  [key: string]: Stats | number | string;
 }
 
 interface SortState {
-  sortKey: string | null;
+  sortKey: string;
   sortOrder: "asc" | "desc";
 }
 
 interface SortableTableProps {
   data: TableData[];
-  columns: Column[];
-  rows: Column[];
+  rows: Row[];
+  headers: Row[];
 }
 
-const SortableTable: React.FC<SortableTableProps> = ({
+const SortableTable = ({
   data,
-  columns,
   rows,
-}) => {
+  headers
+}: SortableTableProps) => {
   const [sortState, setSortState] = useState<SortState>({
-    sortKey: columns[0].key,
+    sortKey: headers[0].key,
     sortOrder: "asc",
   });
 
@@ -60,12 +65,12 @@ const SortableTable: React.FC<SortableTableProps> = ({
     if (sortKey) {
       return [...data].sort((a, b) => {
         const valueA =
-          typeof a[sortKey] === "object" && a[sortKey]?.mean !== undefined
-            ? a[sortKey].mean
+          typeof a[sortKey] === "object" && (a[sortKey] as Stats)?.mean !== undefined
+            ? (a[sortKey] as Stats).mean
             : a[sortKey];
         const valueB =
-          typeof b[sortKey] === "object" && b[sortKey]?.mean !== undefined
-            ? b[sortKey].mean
+          typeof b[sortKey] === "object" && (b[sortKey] as Stats)?.mean !== undefined
+            ? (b[sortKey] as Stats).mean
             : b[sortKey];
 
         if (valueA < valueB) {
@@ -83,31 +88,34 @@ const SortableTable: React.FC<SortableTableProps> = ({
   return (
     <table>
       <thead>
-        {rows.map((row) => (
+        {headers.map((header) => (
           <tr>
-            <th onClick={() => handleSort(row.key)}>
-              {row.header} {getSortIcon(row.key)}
+            <th onClick={() => handleSort(header.key)}>
+              {header.value} {getSortIcon(header.key)}
             </th>
             {sortedData.map((item) => (
-              <th>{item[row.key]}</th>
+              <th>{(item[header.key] as "object")}</th>
             ))}
           </tr>
         ))}
       </thead>
       <tbody>
-        {columns.map((column) => (
+        {rows.map((row) => (
           <tr>
-            <th key={column.key} onClick={() => handleSort(column.key)}>
-              {column.header} {getSortIcon(column.key)}
+            <th key={row.key} onClick={() => handleSort(row.key)}>
+              {row.value} {getSortIcon(row.key)}
             </th>
             {sortedData.map((item) => (
-              <td key={column.key}>
-                {typeof item[column.key] === "object" &&
-                item[column.key]?.mean !== undefined &&
-                item[column.key]?.std !== undefined ? (
-                  `${item[column.key].mean} ± ${item[column.key].std}`
+              <td key={row.key}>
+                {typeof item[row.key] === "object" &&
+                item[row.key] !== null &&
+                (item[row.key] as Stats).mean !== undefined &&
+                (item[row.key] as Stats).std !== undefined ? (
+                  <>
+                  {(item[row.key] as Stats).mean} ± {(item[row.key] as Stats).std}
+                  </>
                 ) : (
-                  item[column.key]
+                  <>{item[row.key]}</>
                 )}
               </td>
             ))}

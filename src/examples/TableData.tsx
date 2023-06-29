@@ -4,24 +4,24 @@ export const data = [
   { id: 3, name: "Bob", age: 40, location: "Paris" },
 ];
 
-export const columns = [
-  { key: "name", header: "Name" },
-  { key: "age", header: "Age" },
-  { key: "location", header: "Location" },
+export const rows = [
+  { key: "name", value: "Name" },
+  { key: "age", value: "Age" },
+  { key: "location", value: "Location" },
 ];
 
-export const rows = [
-  { key: "id", header: "Rank" },
-  { key: "id", header: "ID" },
+export const headers = [
+  { key: "id", value: "Rank" },
+  { key: "id", value: "ID" },
 ];
 
 export const id_labels = {
   rank: "Rank ID",
+};
+export const stat_labels = {
   id: "Cluster ID",
   size: "Cluster Size",
   best: "Best Structure",
-};
-export const stat_labels = {
   score: "HADDOCK score [a.u.]",
   vdw: "Van der Waals Energy",
   elec: "Electrostatic Energy",

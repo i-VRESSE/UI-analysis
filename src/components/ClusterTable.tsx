@@ -1,4 +1,3 @@
-import React from "react";
 import SortableTable from "./SortableTable/SortableTable";
 
 type StatID = string;
@@ -30,15 +29,15 @@ const transformClustersToData = (
   id_labels: Record<string, string>,
   stat_labels: Record<string, string>,
   clusters: Cluster[]
-): { columns: any[]; rows: any[]; data: TableData[] } => {
-  const rows = Object.entries(id_labels).map(([key, header]) => ({
+): { rows: any[]; headers: any[]; data: TableData[] } => {
+  const headers = Object.entries(id_labels).map(([key, value]) => ({
     key,
-    header,
+    value,
   }));
 
-  const columns = Object.entries(stat_labels).map(([key, header]) => ({
+  const rows = Object.entries(stat_labels).map(([key, value]) => ({
     key,
-    header,
+    value,
   }));
 
   const transformedData: TableData[] = clusters.map((cluster) => {
@@ -52,7 +51,7 @@ const transformClustersToData = (
     return data;
   });
 
-  return { columns, rows, data: transformedData };
+  return { rows, headers, data: transformedData };
 };
 
 export const ClusterTable = ({
@@ -61,12 +60,12 @@ export const ClusterTable = ({
   clusters,
   maxbest = 4,
 }: Props) => {
-  const { columns, rows, data } = transformClustersToData(
+  const { rows, headers, data } = transformClustersToData(
     id_labels,
     stat_labels,
     clusters
   );
-  const table = SortableTable({ data, columns, rows });
+  const table = <SortableTable data={data} rows={rows} headers={headers}/>
   return (
     <div>
       {table}
