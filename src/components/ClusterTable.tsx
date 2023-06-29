@@ -69,7 +69,6 @@ export const ClusterTable = ({
   return (
     <div>
       {table}
-      {maxbest}
     </div>
   );
 };
