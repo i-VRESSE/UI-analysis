@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
-interface Row {
+
+interface header {
   key: string;
   value: string;
 }
@@ -11,8 +12,10 @@ interface Stats {
   std: number;
 }
 
+type HTMLString = string;
+
 interface TableData {
-  [key: string]: Stats | number | string;
+  [key: string]: Stats | number | string | HTMLString;
 }
 
 interface SortState {
@@ -22,21 +25,21 @@ interface SortState {
 
 interface SortableTableProps {
   data: TableData[];
-  rows: Row[];
-  headers: Row[];
+  verticalHeaders: header[];
+  horizontalHeaders?: header[];
 }
 
 interface TableCellContentProps {
-  content: Stats | number | string;
+  content: Stats | number | string | HTMLString;
 }
 
 const SortableTable = ({
   data,
-  rows,
-  headers
+  verticalHeaders = [],
+  horizontalHeaders = []
 }: SortableTableProps) => {
   const [sortState, setSortState] = useState<SortState>({
-    sortKey: headers[0].key,
+    sortKey: horizontalHeaders.length > 0 ? horizontalHeaders[0].key : verticalHeaders[0].key,
     sortOrder: "asc",
   });
 
@@ -56,6 +59,8 @@ const SortableTable = ({
     });
   };
 
+  // TODO: move icons to the right
+  // TODO: show icons by default
   const getSortIcon = (key: string) => {
     const { sortKey, sortOrder } = sortState;
     if (sortKey === key) {
@@ -66,7 +71,7 @@ const SortableTable = ({
 
   const sortedData = useMemo(() => {
     const { sortKey, sortOrder } = sortState;
-    const getValue = (content: Stats | number | string) => {
+    const getValue = (content: Stats | number | string | HTMLString) => {
       if (typeof content === "object" && content?.mean !== undefined){
         return content.mean
       }
@@ -76,6 +81,14 @@ const SortableTable = ({
       return [...data].sort((a, b) => {
         const valueA = getValue(a[sortKey]);
         const valueB = getValue(b[sortKey]);
+
+       // Exclude HTMLString from sorting
+        if (
+          !(a[sortKey] as HTMLString) &&
+          !(b[sortKey] as HTMLString)
+        ) {
+          return 0;
+        }
 
         if (valueA < valueB) {
           return sortOrder === "asc" ? -1 : 1;
@@ -89,7 +102,7 @@ const SortableTable = ({
     return data;
   }, [data, sortState]);
 
-  const TableCellContent = ({ content }: TableCellContentProps) => {
+  const TableCellContent = ({content}: TableCellContentProps) => {
     if (typeof content === "object" && content !== null) {
       const { mean, std } = content as Stats;
       if (mean !== undefined && std !== undefined) {
@@ -103,10 +116,11 @@ const SortableTable = ({
     return <>{content}</>;
   };
 
+  // TODO: use flex box in css
   return (
     <table>
       <thead>
-        {headers.map((header) => (
+        {horizontalHeaders.map((header) => (
           <tr>
             <th onClick={() => handleSort(header.key)}>
               {header.value} {getSortIcon(header.key)}
@@ -118,14 +132,14 @@ const SortableTable = ({
         ))}
       </thead>
       <tbody>
-        {rows.map((row) => (
+        {verticalHeaders.map((header) => (
           <tr>
-            <th key={row.key} onClick={() => handleSort(row.key)}>
-              {row.value} {getSortIcon(row.key)}
+            <th key={header.key} onClick={() => handleSort(header.key)}>
+              {header.value} {getSortIcon(header.key)}
             </th>
             {sortedData.map((item) => (
-              <td key={row.key}>
-                <TableCellContent content={item[row.key]}/>
+              <td key={header.key}>
+                <TableCellContent content={item[header.key]}/>
               </td>
             ))}
           </tr>

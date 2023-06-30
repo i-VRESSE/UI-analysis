@@ -1,6 +1,8 @@
 import SortableTable from "./SortableTable/SortableTable";
 
 type StatID = string;
+type HTMLString = string;
+
 interface Stats {
   mean: number;
   std: number;
@@ -10,12 +12,11 @@ export interface Cluster {
   rank: number | "Unclustered";
   id: number | "-";
   size: number;
-  best: string[];
+  best: HTMLString[];
   stats: Record<StatID, Stats>;
 }
 
 interface Props {
-  id_labels: Record<StatID, string>;
   stat_labels: Record<StatID, string>;
   clusters: Cluster[];
   maxbest?: number;
@@ -26,16 +27,10 @@ interface TableData {
 }
 
 const transformClustersToData = (
-  id_labels: Record<string, string>,
   stat_labels: Record<string, string>,
   clusters: Cluster[]
-): { rows: any[]; headers: any[]; data: TableData[] } => {
-  const headers = Object.entries(id_labels).map(([key, value]) => ({
-    key,
-    value,
-  }));
-
-  const rows = Object.entries(stat_labels).map(([key, value]) => ({
+): { verticalHeaders: any[]; data: TableData[] } => {
+  const verticalHeaders = Object.entries(stat_labels).map(([key, value]) => ({
     key,
     value,
   }));
@@ -51,21 +46,19 @@ const transformClustersToData = (
     return data;
   });
 
-  return { rows, headers, data: transformedData };
+  return { verticalHeaders, data: transformedData };
 };
 
 export const ClusterTable = ({
-  id_labels,
   stat_labels,
   clusters,
   maxbest = 4,
 }: Props) => {
-  const { rows, headers, data } = transformClustersToData(
-    id_labels,
+  const { verticalHeaders, data } = transformClustersToData(
     stat_labels,
     clusters
   );
-  const table = <SortableTable data={data} rows={rows} headers={headers}/>
+  const table = <SortableTable data={data} verticalHeaders={verticalHeaders}/>
   return (
     <div>
       {table}

@@ -15,10 +15,8 @@ export const headers = [
   { key: "id", value: "ID" },
 ];
 
-export const id_labels = {
-  rank: "Rank ID",
-};
 export const stat_labels = {
+  rank: "Rank ID",
   id: "Cluster ID",
   size: "Cluster Size",
   best: "Best Structure",
@@ -39,14 +37,14 @@ export const clusters = [
     rank: 1,
     id: 2,
     size: 10,
-    best: [],
+    best: [<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>],
     stats: { score: { mean: 15, std: 2 }, vdw: { mean: 25, std: 3 } },
   },
   {
     rank: 2,
     id: 1,
     size: 9,
-    best: [],
+    best: [<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>],
     stats: { score: { mean: 25, std: 3 }, vdw: { mean: 10, std: 2 } },
   },
 ];
