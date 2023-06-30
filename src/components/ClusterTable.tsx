@@ -39,7 +39,7 @@ const transformClustersToData = (
     const { rank, id, size, best, stats } = cluster;
     const data: TableData = { rank, id, size, best };
 
-    Object.entries(stats).forEach(([statID,  stats ]) => {
+    Object.entries(stats).forEach(([statID, stats]) => {
       data[statID] = stats;
     });
 
@@ -49,19 +49,11 @@ const transformClustersToData = (
   return { verticalHeaders, data: transformedData };
 };
 
-export const ClusterTable = ({
-  stat_labels,
-  clusters,
-  maxbest = 4,
-}: Props) => {
+export const ClusterTable = ({ stat_labels, clusters, maxbest = 4 }: Props) => {
   const { verticalHeaders, data } = transformClustersToData(
     stat_labels,
     clusters
   );
-  const table = <SortableTable data={data} verticalHeaders={verticalHeaders}/>
-  return (
-    <div>
-      {table}
-    </div>
-  );
+  const table = <SortableTable data={data} verticalHeaders={verticalHeaders} />;
+  return <div>{table}</div>;
 };

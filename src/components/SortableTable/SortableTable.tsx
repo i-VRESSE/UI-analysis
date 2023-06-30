@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
-
 interface header {
   key: string;
   value: string;
@@ -36,10 +35,13 @@ interface TableCellContentProps {
 const SortableTable = ({
   data,
   verticalHeaders = [],
-  horizontalHeaders = []
+  horizontalHeaders = [],
 }: SortableTableProps) => {
   const [sortState, setSortState] = useState<SortState>({
-    sortKey: horizontalHeaders.length > 0 ? horizontalHeaders[0].key : verticalHeaders[0].key,
+    sortKey:
+      horizontalHeaders.length > 0
+        ? horizontalHeaders[0].key
+        : verticalHeaders[0].key,
     sortOrder: "asc",
   });
 
@@ -64,7 +66,7 @@ const SortableTable = ({
   const getSortIcon = (key: string) => {
     const { sortKey, sortOrder } = sortState;
     if (sortKey === key) {
-      return sortOrder === "asc" ? "▼": "▲";
+      return sortOrder === "asc" ? "▼" : "▲";
     }
     return "";
   };
@@ -72,8 +74,8 @@ const SortableTable = ({
   const sortedData = useMemo(() => {
     const { sortKey, sortOrder } = sortState;
     const getValue = (content: Stats | number | string | HTMLString) => {
-      if (typeof content === "object" && content?.mean !== undefined){
-        return content.mean
+      if (typeof content === "object" && content?.mean !== undefined) {
+        return content.mean;
       }
       return content;
     };
@@ -82,11 +84,8 @@ const SortableTable = ({
         const valueA = getValue(a[sortKey]);
         const valueB = getValue(b[sortKey]);
 
-       // Exclude HTMLString from sorting
-        if (
-          !(a[sortKey] as HTMLString) &&
-          !(b[sortKey] as HTMLString)
-        ) {
+        // Exclude HTMLString from sorting
+        if (!(a[sortKey] as HTMLString) && !(b[sortKey] as HTMLString)) {
           return 0;
         }
 
@@ -102,7 +101,7 @@ const SortableTable = ({
     return data;
   }, [data, sortState]);
 
-  const TableCellContent = ({content}: TableCellContentProps) => {
+  const TableCellContent = ({ content }: TableCellContentProps) => {
     if (typeof content === "object" && content !== null) {
       const { mean, std } = content as Stats;
       if (mean !== undefined && std !== undefined) {
@@ -126,7 +125,7 @@ const SortableTable = ({
               {header.value} {getSortIcon(header.key)}
             </th>
             {sortedData.map((item) => (
-              <th>{(item[header.key] as "object")}</th>
+              <th>{item[header.key] as "object"}</th>
             ))}
           </tr>
         ))}
@@ -139,7 +138,7 @@ const SortableTable = ({
             </th>
             {sortedData.map((item) => (
               <td key={header.key}>
-                <TableCellContent content={item[header.key]}/>
+                <TableCellContent content={item[header.key]} />
               </td>
             ))}
           </tr>
