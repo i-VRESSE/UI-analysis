@@ -26,6 +26,7 @@ interface TableData {
   [key: string]: any;
 }
 
+// TODO: implmenet best and maxbest
 const transformClustersToData = (
   stat_labels: Record<string, string>,
   clusters: Cluster[]
