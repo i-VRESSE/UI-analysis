@@ -1,4 +1,4 @@
-import { Cluster } from "../components/ClusterTable"
+import { Cluster } from "../components/ClusterTable";
 export const data = [
   { id: 1, name: "John", age: 25, location: "New York" },
   { id: 2, name: "Alice", age: 32, location: "London" },
@@ -46,7 +46,10 @@ export const clusters: Cluster[] = [
     rank: 2,
     id: 1,
     size: 9,
-    best: ['<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>', '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>'],
+    best: [
+      '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+      '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+    ],
     stats: { score: { mean: 25, std: 3 }, vdw: { mean: 10, std: 2 } },
   },
 ];

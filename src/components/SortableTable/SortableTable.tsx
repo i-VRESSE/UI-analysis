@@ -1,5 +1,5 @@
 import { useMemo, useState, Fragment } from "react";
-import HTMLString from 'react-html-string';
+import HTMLString from "react-html-string";
 import "./SortableTable.css";
 
 interface header {
@@ -75,11 +75,14 @@ const SortableTable = ({
   const sortedData = useMemo(() => {
     const { sortKey, sortOrder } = sortState;
     const isArrayOfStrings = (content: any): content is HtmlString[] => {
-      return Array.isArray(content) && content.every((item) => typeof item === "string");
+      return (
+        Array.isArray(content) &&
+        content.every((item) => typeof item === "string")
+      );
     };
     const getValue = (content: Stats | number | string | HtmlString[]) => {
       if (typeof content === "object" && content !== null) {
-        if ("mean" in content){
+        if ("mean" in content) {
           return content.mean;
         }
       }
@@ -109,7 +112,10 @@ const SortableTable = ({
 
   const TableCellContent = ({ content }: TableCellContentProps) => {
     const isArrayOfStrings = (content: any): content is HtmlString[] => {
-      return Array.isArray(content) && content.every((item) => typeof item === "string");
+      return (
+        Array.isArray(content) &&
+        content.every((item) => typeof item === "string")
+      );
     };
     if (typeof content === "object" && content !== null) {
       const { mean, std } = content as Stats;
@@ -121,7 +127,7 @@ const SortableTable = ({
         );
       }
     }
-    if (isArrayOfStrings(content)){
+    if (isArrayOfStrings(content)) {
       const renderedContent = content.map((item, index) => (
         <Fragment key={index}>
           {index > 0 && ", "} {/* Add a comma after each element */}
