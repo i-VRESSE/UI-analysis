@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, Fragment } from "react";
+import HTMLString from 'react-html-string';
 import "./SortableTable.css";
 
 interface header {
@@ -11,10 +12,10 @@ interface Stats {
   std: number;
 }
 
-type HTMLString = string;
+type HtmlString = string;
 
 interface TableData {
-  [key: string]: Stats | number | string | HTMLString;
+  [key: string]: Stats | number | string | HtmlString[];
 }
 
 interface SortState {
@@ -29,7 +30,7 @@ interface SortableTableProps {
 }
 
 interface TableCellContentProps {
-  content: Stats | number | string | HTMLString;
+  content: Stats | number | string | HtmlString[];
 }
 
 const SortableTable = ({
@@ -73,9 +74,14 @@ const SortableTable = ({
 
   const sortedData = useMemo(() => {
     const { sortKey, sortOrder } = sortState;
-    const getValue = (content: Stats | number | string | HTMLString) => {
-      if (typeof content === "object" && content?.mean !== undefined) {
-        return content.mean;
+    const isArrayOfStrings = (content: any): content is HtmlString[] => {
+      return Array.isArray(content) && content.every((item) => typeof item === "string");
+    };
+    const getValue = (content: Stats | number | string | HtmlString[]) => {
+      if (typeof content === "object" && content !== null) {
+        if ("mean" in content){
+          return content.mean;
+        }
       }
       return content;
     };
@@ -84,8 +90,8 @@ const SortableTable = ({
         const valueA = getValue(a[sortKey]);
         const valueB = getValue(b[sortKey]);
 
-        // Exclude HTMLString from sorting
-        if (!(a[sortKey] as HTMLString) && !(b[sortKey] as HTMLString)) {
+        // Exclude HtmlString from sorting
+        if (isArrayOfStrings(valueA) || isArrayOfStrings(valueB)) {
           return 0;
         }
 
@@ -102,6 +108,9 @@ const SortableTable = ({
   }, [data, sortState]);
 
   const TableCellContent = ({ content }: TableCellContentProps) => {
+    const isArrayOfStrings = (content: any): content is HtmlString[] => {
+      return Array.isArray(content) && content.every((item) => typeof item === "string");
+    };
     if (typeof content === "object" && content !== null) {
       const { mean, std } = content as Stats;
       if (mean !== undefined && std !== undefined) {
@@ -111,6 +120,15 @@ const SortableTable = ({
           </>
         );
       }
+    }
+    if (isArrayOfStrings(content)){
+      const renderedContent = content.map((item, index) => (
+        <Fragment key={index}>
+          {index > 0 && ", "} {/* Add a comma after each element */}
+          <HTMLString html={item} />
+        </Fragment>
+      ));
+      return <>{renderedContent}</>;
     }
     return <>{content}</>;
   };
