@@ -1,5 +1,5 @@
 import { ClusterTable } from "./components/ClusterTable";
-import { stat_labels, clusters } from "./examples/TableData";
+import { stat_labels, clusters } from "./examples/HaddockTableData";
 
 const App = () => {
   return (
