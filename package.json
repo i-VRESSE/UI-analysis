@@ -54,5 +54,8 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0"
+  },
+  "dependencies": {
+    "html-to-react": "^1.6.0"
   }
 }
