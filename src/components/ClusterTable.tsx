@@ -1,7 +1,7 @@
 import SortableTable from "./SortableTable/SortableTable";
 
 type StatID = string;
-type HTMLString = string;
+type HtmlString = string;
 
 interface Stats {
   mean: number;
@@ -12,7 +12,7 @@ export interface Cluster {
   rank: number | "Unclustered";
   id: number | "-";
   size: number;
-  best: HTMLString[];
+  best: Array<HtmlString>;
   stats: Record<StatID, Stats>;
 }
 
@@ -50,7 +50,8 @@ const transformClustersToData = (
   return { verticalHeaders, data: transformedData };
 };
 
-export const ClusterTable = ({ stat_labels, clusters, maxbest = 4 }: Props) => {
+// TODO add maxbest
+export const ClusterTable = ({ stat_labels, clusters }: Props) => {
   const { verticalHeaders, data } = transformClustersToData(
     stat_labels,
     clusters
