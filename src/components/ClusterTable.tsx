@@ -3,6 +3,7 @@ import SortableTable from "./SortableTable/SortableTable";
 type StatID = string;
 type BestID = string;
 type HtmlString = string;
+type ClusterID = string;
 
 interface Stats {
   mean: number;
@@ -24,7 +25,7 @@ export interface Cluster {
 
 interface Props {
   stat_labels: Record<StatID, string>;
-  clusters: Cluster[];
+  clusters: Record<ClusterID, Cluster>;
   maxbest?: number;
 }
 
@@ -32,10 +33,9 @@ interface TableData {
   [key: string]: any;
 }
 
-// TODO: implmenet best and maxbest
 const transformClustersToData = (
   stat_labels: Record<string, string>,
-  clusters: Cluster[],
+  clusters: Record<ClusterID, Cluster>,
   maxbest: number
 ): { verticalHeaders: header[]; data: TableData[] } => {
   const verticalHeaders = Object.entries(stat_labels).map(([key, value]) => ({
@@ -43,26 +43,28 @@ const transformClustersToData = (
     value,
   }));
 
-  const transformedData: TableData[] = clusters.map((cluster) => {
-    const { rank, id, size, best, stats } = cluster;
-    const data: TableData = { rank, id, size };
+  const transformedData: TableData[] = Object.values(clusters).map(
+    (cluster) => {
+      const { rank, id, size, best, stats } = cluster;
+      const data: TableData = { rank, id, size };
 
-    //  unpack stats
-    Object.entries(stats).forEach(([statID, stats]) => {
-      data[statID] = stats;
-    });
+      //  unpack stats
+      Object.entries(stats).forEach(([statID, stats]) => {
+        data[statID] = stats;
+      });
 
-    // select the first maxBest items
-    // TODO make sure they are sorted
-    const maxBest = Object.entries(best).slice(0, maxbest);
+      // select the first maxBest items
+      // TODO make sure they are sorted
+      const maxBest = Object.entries(best).slice(0, maxbest);
 
-    // unpack best
-    maxBest.forEach(([bestID, best]) => {
-      data[bestID] = best;
-    });
+      // unpack best
+      maxBest.forEach(([bestID, best]) => {
+        data[bestID] = best;
+      });
 
-    return data;
-  });
+      return data;
+    }
+  );
 
   // match keys of data and verticalHeaders
   const dataKeys = Object.keys(transformedData[0] || {});

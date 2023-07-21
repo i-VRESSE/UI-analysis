@@ -20,8 +20,8 @@ export const stat_labels = {
   dockq: "DOCKQ",
 };
 
-export const clusters: Cluster[] = [
-  {
+export const clusters = {
+  "0": {
     rank: 1,
     id: 2,
     size: 10,
@@ -33,7 +33,7 @@ export const clusters: Cluster[] = [
     },
     stats: { score: { mean: 15, std: 2 }, vdw: { mean: 25, std: 3 } },
   },
-  {
+  "1": {
     rank: 2,
     id: 1,
     size: 9,
@@ -57,4 +57,4 @@ export const clusters: Cluster[] = [
     },
     stats: { score: { mean: 25, std: 3 }, vdw: { mean: 10, std: 2 } },
   },
-];
+};
