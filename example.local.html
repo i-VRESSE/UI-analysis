@@ -21,28 +21,38 @@
       import { createElement } from "react";
       import { ClusterTable } from "@i-vresse/haddock3-analysis-components";
 
-      const clusters = [
-        {
-          rank: 1,
-          id: 2,
-          size: 10,
-          best: ['<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>'],
-          stats: { score: { mean: 15, std: 2 }, vdw: { mean: 25, std: 3 } },
-        },
-        {
+      const clusters = {
+        "1": {
           rank: 2,
           id: 1,
           size: 9,
-          best: ['<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>'],
+          best: {
+            no1: [
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            ],
+            no2: [
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            ],
+            no3: [
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            ],
+            no4: [
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            ],
+          },
           stats: { score: { mean: 25, std: 3 }, vdw: { mean: 10, std: 2 } },
-        },
-      ];
+        }
+      };
 
       const stat_labels = {
         rank: "Rank ID",
         id: "Cluster ID",
         size: "Cluster Size",
-        best: "Best Structure",
+        no1: "Nr 01 best structure",
         score: "HADDOCK score [a.u.]",
         vdw: "Van der Waals Energy",
         elec: "Electrostatic Energy",
