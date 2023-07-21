@@ -1,6 +1,7 @@
 import SortableTable from "./SortableTable/SortableTable";
 
 type StatID = string;
+type BestID = string;
 type HtmlString = string;
 
 interface Stats {
@@ -8,11 +9,16 @@ interface Stats {
   std: number;
 }
 
+interface header {
+  key: string;
+  value: string;
+}
+
 export interface Cluster {
   rank: number | "Unclustered";
   id: number | "-";
   size: number;
-  best: Array<HtmlString>;
+  best: Record<BestID, HtmlString[]>;
   stats: Record<StatID, Stats>;
 }
 
@@ -29,8 +35,9 @@ interface TableData {
 // TODO: implmenet best and maxbest
 const transformClustersToData = (
   stat_labels: Record<string, string>,
-  clusters: Cluster[]
-): { verticalHeaders: any[]; data: TableData[] } => {
+  clusters: Cluster[],
+  maxbest: number
+): { verticalHeaders: header[]; data: TableData[] } => {
   const verticalHeaders = Object.entries(stat_labels).map(([key, value]) => ({
     key,
     value,
@@ -38,23 +45,39 @@ const transformClustersToData = (
 
   const transformedData: TableData[] = clusters.map((cluster) => {
     const { rank, id, size, best, stats } = cluster;
-    const data: TableData = { rank, id, size, best };
+    const data: TableData = { rank, id, size };
 
+    //  unpack stats
     Object.entries(stats).forEach(([statID, stats]) => {
       data[statID] = stats;
+    });
+
+    // select the first maxBest items
+    // TODO make sure they are sorted
+    const maxBest = Object.entries(best).slice(0, maxbest);
+
+    // unpack best
+    maxBest.forEach(([bestID, best]) => {
+      data[bestID] = best;
     });
 
     return data;
   });
 
-  return { verticalHeaders, data: transformedData };
+  // match keys of data and verticalHeaders
+  const dataKeys = Object.keys(transformedData[0] || {});
+  const filteredVerticalHeaders = verticalHeaders.filter(({ key }) =>
+    dataKeys.includes(key)
+  );
+
+  return { verticalHeaders: filteredVerticalHeaders, data: transformedData };
 };
 
-// TODO add maxbest
-export const ClusterTable = ({ stat_labels, clusters }: Props) => {
+export const ClusterTable = ({ stat_labels, clusters, maxbest = 1 }: Props) => {
   const { verticalHeaders, data } = transformClustersToData(
     stat_labels,
-    clusters
+    clusters,
+    maxbest
   );
   const table = <SortableTable data={data} verticalHeaders={verticalHeaders} />;
   return <div>{table}</div>;
