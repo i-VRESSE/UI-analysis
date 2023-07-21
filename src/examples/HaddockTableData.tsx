@@ -1,5 +1,3 @@
-import { Cluster } from "../components/ClusterTable";
-
 export const stat_labels = {
   rank: "Rank ID",
   id: "Cluster ID",
