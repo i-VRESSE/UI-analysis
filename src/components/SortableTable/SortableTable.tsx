@@ -63,13 +63,12 @@ const SortableTable = ({
   };
 
   // TODO: move icons to the right
-  // TODO: show icons by default
   const getSortIcon = (key: string) => {
     const { sortKey, sortOrder } = sortState;
     if (sortKey === key) {
-      return sortOrder === "asc" ? "▼" : "▲";
+      return sortOrder === "asc" ? "↓" : "↑";
     }
-    return "";
+    return "↑↓";
   };
 
   const sortedData = useMemo(() => {
