@@ -144,7 +144,8 @@ const SortableTable = ({
         {horizontalHeaders.map((header) => (
           <tr>
             <th onClick={() => handleSort(header.key)}>
-              {header.value} <span className="sort-icon">{getSortIcon(header.key)}</span>
+              {header.value}
+              <span className="sort-icon">{getSortIcon(header.key)}</span>
             </th>
             {sortedData.map((item) => (
               <th>{item[header.key] as "object"}</th>
@@ -156,7 +157,8 @@ const SortableTable = ({
         {verticalHeaders.map((header) => (
           <tr>
             <th key={header.key} onClick={() => handleSort(header.key)}>
-              {header.value}<span className="sort-icon">{getSortIcon(header.key)}</span>
+              {header.value}
+              <span className="sort-icon">{getSortIcon(header.key)}</span>
             </th>
             {sortedData.map((item) => (
               <td key={header.key}>
