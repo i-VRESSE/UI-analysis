@@ -13,6 +13,7 @@ interface Stats {
 interface Header {
   key: string;
   value: string;
+  sort: string | boolean;
 }
 
 export interface Cluster {
@@ -38,40 +39,47 @@ const transformClustersToData = (
   clusters: Record<ClusterID, Cluster>,
   maxbest: number
 ): { verticalHeaders: Header[]; data: TableData[] } => {
-
-  const transformedData: TableData[] = Object.values(clusters).map(
-    (cluster) => {
-      const { rank, id, size, best, stats } = cluster;
-      const data: TableData = { rank, id, size };
-
-      //  unpack stats
-      Object.entries(stats).forEach(([statID, stats]) => {
-        data[statID] = stats;
-      });
-
-      // select the first maxBest items
-      // TODO make sure they are sorted
-      const maxBest = Object.entries(best).slice(0, maxbest);
-
-      // unpack best
-      maxBest.forEach(([bestID, best]) => {
-        data[bestID] = best;
-      });
-
-      return data;
-    }
-  );
-
-  // prepare headers that are in the data
+  const data: TableData[] = [];
   const verticalHeaders: Header[] = [];
-  const dataKeys = Object.keys(transformedData[0] || {});
-  Object.entries(stat_labels).forEach(([key, value]) => {
-    if (dataKeys.includes(key)) {
-      verticalHeaders.push({ key, value });
-    }
+
+  Object.values(clusters).forEach((cluster) => {
+    const { rank, id, size, best, stats } = cluster;
+    const transformedData: TableData = { rank, id, size };
+
+    // Unpack stats
+    Object.entries(stats).forEach(([statID, stats]) => {
+      transformedData[statID] = stats;
+    });
+
+    // Select the first maxBest items
+    // TODO make sure they are sorted
+    const maxBest = Object.entries(best).slice(0, maxbest);
+
+    // Unpack best
+    maxBest.forEach(([bestID, best]) => {
+      transformedData[bestID] = best;
+    });
+
+    data.push(transformedData);
   });
 
-  return { verticalHeaders, data: transformedData };
+  // Prepare headers that are in the data
+  const dataKeys = Object.keys(data[0] || {});
+  Object.entries(stat_labels).forEach(([key, value]) => {
+    let sort: string | boolean;
+    if (dataKeys.includes(key)) {
+      if (key in clusters[Object.keys(clusters)[0]].best) {
+        sort = false;
+      } else if (key in clusters[Object.keys(clusters)[0]].stats) {
+        sort = "mean";
+      } else {
+        sort = true;
+      }
+      const header: Header = { key, value, sort };
+      verticalHeaders.push(header);
+    }
+  });
+  return { verticalHeaders, data };
 };
 
 export const ClusterTable = ({ stat_labels, clusters, maxbest = 1 }: Props) => {
