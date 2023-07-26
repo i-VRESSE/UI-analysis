@@ -55,6 +55,11 @@ tbody th {
   right: 5px;
   top: 50%;
   transform: translateY(-50%);
+  opacity: 0.25;
+}
+
+.sort-icon:hover {
+  opacity: 1;
 }
 
 thead tr th:first-child,
