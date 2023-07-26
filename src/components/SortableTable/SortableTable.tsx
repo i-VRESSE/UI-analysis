@@ -1,5 +1,4 @@
 import { useMemo, useState, Fragment } from "react";
-import HTMLString from "react-html-string";
 import "./SortableTable.css";
 
 interface header {
@@ -120,6 +119,7 @@ const SortableTable = ({
       if (mean !== undefined && std !== undefined) {
         return (
           <>
+          {/*use react fstring */}
             {mean} ± {std}
           </>
         );
@@ -129,7 +129,7 @@ const SortableTable = ({
       const renderedContent = content.map((item, index) => (
         <Fragment key={index}>
           {index > 0 && ", "} {/* Add a comma after each element */}
-          <HTMLString html={item} />
+          <span dangerouslySetInnerHTML={{__html: item}}/>
         </Fragment>
       ));
       return <>{renderedContent}</>;
