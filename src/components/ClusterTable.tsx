@@ -10,7 +10,7 @@ interface Stats {
   std: number;
 }
 
-interface header {
+interface Header {
   key: string;
   value: string;
 }
@@ -37,11 +37,7 @@ const transformClustersToData = (
   stat_labels: Record<string, string>,
   clusters: Record<ClusterID, Cluster>,
   maxbest: number
-): { verticalHeaders: header[]; data: TableData[] } => {
-  const verticalHeaders = Object.entries(stat_labels).map(([key, value]) => ({
-    key,
-    value,
-  }));
+): { verticalHeaders: Header[]; data: TableData[] } => {
 
   const transformedData: TableData[] = Object.values(clusters).map(
     (cluster) => {
@@ -66,13 +62,16 @@ const transformClustersToData = (
     }
   );
 
-  // match keys of data and verticalHeaders
+  // prepare headers that are in the data
+  const verticalHeaders: Header[] = [];
   const dataKeys = Object.keys(transformedData[0] || {});
-  const filteredVerticalHeaders = verticalHeaders.filter(({ key }) =>
-    dataKeys.includes(key)
-  );
+  Object.entries(stat_labels).forEach(([key, value]) => {
+    if (dataKeys.includes(key)) {
+      verticalHeaders.push({ key, value });
+    }
+  });
 
-  return { verticalHeaders: filteredVerticalHeaders, data: transformedData };
+  return { verticalHeaders, data: transformedData };
 };
 
 export const ClusterTable = ({ stat_labels, clusters, maxbest = 1 }: Props) => {
