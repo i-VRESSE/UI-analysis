@@ -1,7 +1,7 @@
 import { useMemo, useState, Fragment } from "react";
 import "./SortableTable.css";
 
-interface header {
+interface Header {
   key: string;
   value: string;
 }
@@ -24,8 +24,8 @@ interface SortState {
 
 interface SortableTableProps {
   data: TableData[];
-  verticalHeaders: header[];
-  horizontalHeaders?: header[];
+  verticalHeaders: Header[];
+  horizontalHeaders?: Header[];
 }
 
 interface TableCellContentProps {
