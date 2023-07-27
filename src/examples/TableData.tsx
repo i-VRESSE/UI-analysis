@@ -4,12 +4,12 @@ export const data = [
   { id: 3, name: "Bob", age: 40, location: "Paris" },
 ];
 
-export const rows = [
-  { key: "name", value: "Name", sort: true, type: "value" },
-  { key: "age", value: "Age", sort: true, type: "value" },
-  { key: "location", value: "Location", sort: true, type: "value" },
+export const verticalHeaders = [
+  { key: "name", value: "Name", sort: true, type: "value"},
+  { key: "age", value: "Age", sort: true, type: "value"},
+  { key: "location", value: "Location", sort: true, type: "value"},
 ];
 
-export const headers = [
-  { key: "id", value: "Rank", sort: true, type: "value" },
+export const horizontalHeaders = [
+  { key: "id", value: "Rank", sort: true, type: "value"},
 ];
