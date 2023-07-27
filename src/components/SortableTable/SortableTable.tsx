@@ -129,12 +129,14 @@ const SortableTable = ({
   };
 
   // TODO: use flex box in css
+  // TODO: fix sort function for horizontalHeaders
   return (
     <table>
       <thead>
         {horizontalHeaders.map((header) => (
           <tr>
             <th
+              key={header.key}
               onClick={() => handleSort(header.key, header.sort, header.type)}
             >
               {header.value}

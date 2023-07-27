@@ -5,12 +5,11 @@ export const data = [
 ];
 
 export const rows = [
-  { key: "name", value: "Name" },
-  { key: "age", value: "Age" },
-  { key: "location", value: "Location" },
+  { key: "name", value: "Name", sort: true, type: "value" },
+  { key: "age", value: "Age", sort: true, type: "value" },
+  { key: "location", value: "Location", sort: true, type: "value" },
 ];
 
 export const headers = [
-  { key: "id", value: "Rank" },
-  { key: "id", value: "ID" },
+  { key: "id", value: "Rank", sort: true, type: "value" },
 ];
