@@ -1,5 +1,4 @@
-import { useMemo, useState, Fragment } from "react";
-import { JSX } from "react/jsx-runtime";
+import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
 interface Header {
