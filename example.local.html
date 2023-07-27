@@ -22,30 +22,30 @@
       import { ClusterTable } from "@i-vresse/haddock3-analysis-components";
 
       const clusters = {
-        "1": {
+        1: {
           rank: 2,
           id: 1,
           size: 9,
           best: {
-            no1: [
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-            ],
-            no2: [
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-            ],
-            no3: [
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-            ],
-            no4: [
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-              '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-            ],
+            no1: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            no2: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            no3: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            no4: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
           },
           stats: { score: { mean: 25, std: 3 }, vdw: { mean: 10, std: 2 } },
-        }
+        },
+        2: {
+          rank: 1,
+          id: 2,
+          size: 10,
+          best: {
+            no1: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            no2: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            no3: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+            no4: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+          },
+          stats: { score: { mean: 26, std: 2 }, vdw: { mean: 9, std: 6 } },
+        },
       };
 
       const stat_labels = {
@@ -53,6 +53,7 @@
         id: "Cluster ID",
         size: "Cluster Size",
         no1: "Nr 01 best structure",
+        no2: "Nr 02 best structure",
         score: "HADDOCK score [a.u.]",
         vdw: "Van der Waals Energy",
         elec: "Electrostatic Energy",
