@@ -24,10 +24,10 @@ export const clusters = {
     id: 2,
     size: 10,
     best: {
-      no1: ["abc", "def"],
-      no2: ["ghi", "jkl"],
-      no3: ["mno", "pqr"],
-      no4: ["stu", "wxy"],
+      no1: "abc",
+      no2: "ghi",
+      no3: "mno",
+      no4: "stu",
     },
     stats: { score: { mean: 15, std: 2 }, vdw: { mean: 25, std: 3 } },
   },
@@ -36,22 +36,10 @@ export const clusters = {
     id: 1,
     size: 9,
     best: {
-      no1: [
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-      ],
-      no2: [
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-      ],
-      no3: [
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-      ],
-      no4: [
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-        '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
-      ],
+      no1: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+      no2: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+      no3: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
+      no4: '<a href="https://github.com/i-VRESSE">Visit i-VRESSE</a>',
     },
     stats: { score: { mean: 25, std: 3 }, vdw: { mean: 10, std: 2 } },
   },

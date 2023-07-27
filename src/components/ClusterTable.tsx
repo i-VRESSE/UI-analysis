@@ -14,13 +14,14 @@ interface Header {
   key: string;
   value: string;
   sort: string | boolean;
+  type: string;
 }
 
 export interface Cluster {
   rank: number | "Unclustered";
   id: number | "-";
   size: number;
-  best: Record<BestID, HtmlString[]>;
+  best: Record<BestID, HtmlString>;
   stats: Record<StatID, Stats>;
 }
 
@@ -67,15 +68,19 @@ const transformClustersToData = (
   const dataKeys = Object.keys(data[0] || {});
   Object.entries(stat_labels).forEach(([key, value]) => {
     let sort: string | boolean;
+    let type: string;
     if (dataKeys.includes(key)) {
       if (key in clusters[Object.keys(clusters)[0]].best) {
         sort = false;
+        type = "html";
       } else if (key in clusters[Object.keys(clusters)[0]].stats) {
         sort = "mean";
+        type = "stats";
       } else {
         sort = true;
+        type = "value";
       }
-      const header: Header = { key, value, sort };
+      const header: Header = { key, value, sort, type };
       verticalHeaders.push(header);
     }
   });

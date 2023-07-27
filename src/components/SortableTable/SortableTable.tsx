@@ -1,10 +1,12 @@
 import { useMemo, useState, Fragment } from "react";
+import { JSX } from "react/jsx-runtime";
 import "./SortableTable.css";
 
 interface Header {
   key: string;
   value: string;
   sort: string | boolean;
+  type: string;
 }
 
 interface Stats {
@@ -14,24 +16,26 @@ interface Stats {
 
 type HtmlString = string;
 
+interface TableContentProps {
+  content: Stats | number | string | HtmlString;
+  type: string;
+}
+
 interface TableData {
-  [key: string]: Stats | number | string | HtmlString[];
+  [key: string]: Stats | number | string | HtmlString;
 }
 
 interface SortState {
   sortKey: string;
   sortOrder: "asc" | "desc";
   sortType: string | boolean;
+  valueType: string;
 }
 
 interface SortableTableProps {
   data: TableData[];
   verticalHeaders: Header[];
   horizontalHeaders?: Header[];
-}
-
-interface TableCellContentProps {
-  content: Stats | number | string | HtmlString[];
 }
 
 const SortableTable = ({
@@ -49,9 +53,13 @@ const SortableTable = ({
       horizontalHeaders.length > 0
         ? horizontalHeaders[0].sort
         : verticalHeaders[0].sort,
+    valueType:
+      horizontalHeaders.length > 0
+        ? horizontalHeaders[0].type
+        : verticalHeaders[0].type,
   });
 
-  const handleSort = (key: string, sort: string | boolean) => {
+  const handleSort = (key: string, sort: string | boolean, type: string) => {
     if (sort) {
       setSortState((prevSortState) => {
         if (prevSortState.sortKey === key) {
@@ -59,12 +67,14 @@ const SortableTable = ({
             sortKey: key,
             sortOrder: prevSortState.sortOrder === "asc" ? "desc" : "asc",
             sortType: sort,
+            valueType: type,
           };
         } else {
           return {
             sortKey: key,
             sortOrder: "asc",
             sortType: sort,
+            valueType: type,
           };
         }
       });
@@ -72,13 +82,14 @@ const SortableTable = ({
   };
 
   const sortedData = useMemo(() => {
-    const { sortKey, sortOrder, sortType } = sortState;
-    const getValue = (content: Stats | number | string | HtmlString[]) => {
-      if (typeof content === "object" && content !== null) {
-        if (sortType === "mean" && "mean" in content) {
-          return content.mean;
-        } else if (sortType === "std" && "std" in content) {
-          return content.std;
+    const { sortKey, sortOrder, sortType, valueType } = sortState;
+    const getValue = (content: Stats | number | string | HtmlString) => {
+      if (valueType === "stats") {
+        const { mean, std } = content as Stats;
+        if (sortType === "mean") {
+          return mean;
+        } else if (sortType === "std") {
+          return std;
         }
       }
       return content;
@@ -111,32 +122,18 @@ const SortableTable = ({
     return "";
   };
 
-  const TableCellContent = ({ content }: TableCellContentProps) => {
-    const isArrayOfStrings = (content: any): content is HtmlString[] => {
-      return (
-        Array.isArray(content) &&
-        content.every((item) => typeof item === "string")
-      );
-    };
-    if (typeof content === "object" && content !== null) {
+  const TableCellContent = ({ content, type }: TableContentProps) => {
+    if (type === "stats") {
       const { mean, std } = content as Stats;
-      if (mean !== undefined && std !== undefined) {
-        return (
-          <>
-            {/*use react fstring */}
-            {mean} ± {std}
-          </>
-        );
-      }
+      return (
+        <>
+          {mean} ± {std}
+        </>
+      );
     }
-    if (isArrayOfStrings(content)) {
-      const renderedContent = content.map((item, index) => (
-        <Fragment key={index}>
-          {index > 0 && ", "} {/* Add a comma after each element */}
-          <span dangerouslySetInnerHTML={{ __html: item }} />
-        </Fragment>
-      ));
-      return <>{renderedContent}</>;
+    if (type === "html") {
+      const htmlContent = content as HtmlString;
+      return <span dangerouslySetInnerHTML={{ __html: htmlContent }} />;
     }
     return <>{content}</>;
   };
@@ -147,7 +144,9 @@ const SortableTable = ({
       <thead>
         {horizontalHeaders.map((header) => (
           <tr>
-            <th onClick={() => handleSort(header.key, header.sort)}>
+            <th
+              onClick={() => handleSort(header.key, header.sort, header.type)}
+            >
               {header.value}
               <span className="sort-icon">
                 {getSortIcon(header.key, header.sort)}
@@ -164,7 +163,7 @@ const SortableTable = ({
           <tr>
             <th
               key={header.key}
-              onClick={() => handleSort(header.key, header.sort)}
+              onClick={() => handleSort(header.key, header.sort, header.type)}
             >
               {header.value}
               <span className="sort-icon">
@@ -173,7 +172,10 @@ const SortableTable = ({
             </th>
             {sortedData.map((item) => (
               <td key={header.key}>
-                <TableCellContent content={item[header.key]} />
+                <TableCellContent
+                  content={item[header.key]}
+                  type={header.type}
+                />
               </td>
             ))}
           </tr>
