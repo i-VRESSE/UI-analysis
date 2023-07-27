@@ -42,40 +42,31 @@ const SortableTable = ({
   verticalHeaders = [],
   horizontalHeaders = [],
 }: SortableTableProps) => {
-  const [sortState, setSortState] = useState<SortState>({
-    sortKey:
-      horizontalHeaders.length > 0
-        ? horizontalHeaders[0].key
-        : verticalHeaders[0].key,
-    sortOrder: "asc",
-    sortType:
-      horizontalHeaders.length > 0
-        ? horizontalHeaders[0].sort
-        : verticalHeaders[0].sort,
-    valueType:
-      horizontalHeaders.length > 0
-        ? horizontalHeaders[0].type
-        : verticalHeaders[0].type,
+  const [sortState, setSortState] = useState<SortState>(() => {
+    const firstHeader =
+      horizontalHeaders.length > 0 ? horizontalHeaders[0] : verticalHeaders[0];
+    return {
+      sortKey: firstHeader.key,
+      sortOrder: "asc",
+      sortType: firstHeader.sort,
+      valueType: firstHeader.type,
+    };
   });
 
   const handleSort = (key: string, sort: string | boolean, type: string) => {
     if (sort) {
       setSortState((prevSortState) => {
-        if (prevSortState.sortKey === key) {
-          return {
-            sortKey: key,
-            sortOrder: prevSortState.sortOrder === "asc" ? "desc" : "asc",
-            sortType: sort,
-            valueType: type,
-          };
-        } else {
-          return {
-            sortKey: key,
-            sortOrder: "asc",
-            sortType: sort,
-            valueType: type,
-          };
-        }
+        return {
+          sortKey: key,
+          sortOrder:
+            prevSortState.sortKey === key
+              ? prevSortState.sortOrder === "asc"
+                ? "desc"
+                : "asc"
+              : "asc",
+          sortType: sort,
+          valueType: type,
+        };
       });
     }
   };
