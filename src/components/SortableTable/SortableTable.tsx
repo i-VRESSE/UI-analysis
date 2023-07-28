@@ -34,22 +34,18 @@ interface SortState {
 interface SortableTableProps {
   data: TableData[];
   verticalHeaders: Header[];
-  horizontalHeaders?: Header[];
 }
 
 const SortableTable = ({
   data,
   verticalHeaders = [],
-  horizontalHeaders = [],
 }: SortableTableProps) => {
   const [sortState, setSortState] = useState<SortState>(() => {
-    const firstHeader =
-      horizontalHeaders.length > 0 ? horizontalHeaders[0] : verticalHeaders[0];
     return {
-      sortKey: firstHeader.key,
+      sortKey: verticalHeaders[0].key,
       sortOrder: "asc",
-      sortType: firstHeader.sort,
-      valueType: firstHeader.type,
+      sortType: verticalHeaders[0].sort,
+      valueType: verticalHeaders[0].type,
     };
   });
 
@@ -129,26 +125,9 @@ const SortableTable = ({
   };
 
   // TODO: use flex box in css
-  // TODO: fix sort function for horizontalHeaders
   return (
     <table>
       <thead>
-        {horizontalHeaders.map((header) => (
-          <tr>
-            <th
-              key={header.key}
-              onClick={() => handleSort(header.key, header.sort, header.type)}
-            >
-              {header.value}
-              <span className="sort-icon">
-                {getSortIcon(header.key, header.sort)}
-              </span>
-            </th>
-            {sortedData.map((item) => (
-              <th>{item[header.key] as "object"}</th>
-            ))}
-          </tr>
-        ))}
       </thead>
       <tbody>
         {verticalHeaders.map((header) => (
