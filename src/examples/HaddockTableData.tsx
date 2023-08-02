@@ -1,4 +1,6 @@
-export const stat_labels = {
+import { Cluster, ClusterID, StatID } from "../components/ClusterTable";
+
+export const stat_labels:Record<StatID, string>  = {
   "rank": "Cluster Rank",
   "id": "Cluster ID",
   "size": "Cluster size",
@@ -19,7 +21,7 @@ export const stat_labels = {
 };
 
 // TODO check when property names dont match
-export const clusters = {
+export const clusters:Record<ClusterID, Cluster> = {
   "0": {
     "rank": "Unclustered",
     "id": "-",
