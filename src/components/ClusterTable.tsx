@@ -26,7 +26,7 @@ export interface Cluster {
 }
 
 export interface Props {
-  stat_labels: Record<StatID, string>;
+  headers: Record<StatID, string>;
   clusters: Record<ClusterID, Cluster>;
   maxbest?: number;
 }
@@ -36,7 +36,7 @@ export interface TableData {
 }
 
 const transformClustersToData = (
-  stat_labels: Record<string, string>,
+  headers: Record<string, string>,
   clusters: Record<ClusterID, Cluster>,
   maxbest: number
 ): { verticalHeaders: Header[]; data: TableData[] } => {
@@ -66,7 +66,7 @@ const transformClustersToData = (
 
   // Prepare headers that are in the data
   const dataKeys = Object.keys(data[0] || {});
-  Object.entries(stat_labels).forEach(([key, value]) => {
+  Object.entries(headers).forEach(([key, value]) => {
     let sort: string | boolean;
     let type: string;
     if (dataKeys.includes(key)) {
@@ -87,9 +87,9 @@ const transformClustersToData = (
   return { verticalHeaders, data };
 };
 
-export const ClusterTable = ({ stat_labels, clusters, maxbest = 1 }: Props) => {
+export const ClusterTable = ({ headers, clusters, maxbest = 1 }: Props) => {
   const { verticalHeaders, data } = transformClustersToData(
-    stat_labels,
+    headers,
     clusters,
     maxbest
   );

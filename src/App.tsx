@@ -1,10 +1,10 @@
 import { ClusterTable } from "./components/ClusterTable";
-import { stat_labels, clusters } from "./examples/HaddockTableData";
+import { headers, clusters } from "./examples/HaddockTableData";
 
 const App = () => {
   return (
     <div>
-      <ClusterTable stat_labels={stat_labels} clusters={clusters} maxbest={4} />
+      <ClusterTable headers={headers} clusters={clusters} maxbest={4} />
     </div>
   );
 };

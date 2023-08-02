@@ -1,6 +1,6 @@
 import { Cluster, ClusterID, StatID } from "../components/ClusterTable";
 
-export const stat_labels:Record<StatID, string>  = {
+export const headers:Record<StatID, string>  = {
   "rank": "Cluster Rank",
   "id": "Cluster ID",
   "size": "Cluster size",

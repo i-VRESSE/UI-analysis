@@ -74,7 +74,7 @@
         }
       };
 
-      const stat_labels = {
+      const headers = {
         "rank": "Cluster Rank",
         "id": "Cluster ID",
         "size": "Cluster size",
@@ -95,7 +95,7 @@
       };
 
       createRoot(document.getElementById("root")).render(
-        createElement(ClusterTable, { stat_labels, clusters })
+        createElement(ClusterTable, { headers, clusters })
       );
     </script>
   </body>
