@@ -1,63 +1,92 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
-interface Column {
+export type ValueType = "html" | "stats" | "value";
+interface Header {
   key: string;
-  header: string;
+  value: string;
+  sort: string | boolean;
+  type: ValueType;
+}
+
+interface Stats {
+  mean: number;
+  std: number;
+}
+
+type HtmlString = string;
+
+interface TableContentProps {
+  content: Stats | number | string | HtmlString;
+  type: ValueType;
 }
 
 interface TableData {
-  [key: string]: any;
+  [key: string]: Stats | number | string | HtmlString;
 }
 
 interface SortState {
-  sortKey: string | null;
+  sortKey: string;
   sortOrder: "asc" | "desc";
+  sortType: string | boolean;
+  valueType: ValueType;
 }
 
 interface SortableTableProps {
   data: TableData[];
-  columns: Column[];
+  verticalHeaders: Header[];
 }
 
-const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
-  const [sortState, setSortState] = useState<SortState>({
-    sortKey: columns[0].key,
-    sortOrder: "asc",
+const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
+  const [sortState, setSortState] = useState<SortState>(() => {
+    return {
+      sortKey: verticalHeaders[0].key,
+      sortOrder: "asc",
+      sortType: verticalHeaders[0].sort,
+      valueType: verticalHeaders[0].type,
+    };
   });
 
-  const handleSort = (key: string) => {
-    setSortState((prevSortState) => {
-      if (prevSortState.sortKey === key) {
+  const handleSort = (key: string, sort: string | boolean, type: ValueType) => {
+    if (sort) {
+      setSortState((prevSortState) => {
         return {
           sortKey: key,
-          sortOrder: prevSortState.sortOrder === "asc" ? "desc" : "asc",
+          sortOrder:
+            prevSortState.sortKey === key
+              ? prevSortState.sortOrder === "asc"
+                ? "desc"
+                : "asc"
+              : "asc",
+          sortType: sort,
+          valueType: type,
         };
-      } else {
-        return {
-          sortKey: key,
-          sortOrder: "asc",
-        };
-      }
-    });
-  };
-
-  const getSortIcon = (key: string) => {
-    const { sortKey, sortOrder } = sortState;
-    if (sortKey === key) {
-      return sortOrder === "asc" ? "↕︎" : "↕︎";
+      });
     }
-    return "";
   };
 
   const sortedData = useMemo(() => {
-    const { sortKey, sortOrder } = sortState;
-    if (sortKey) {
+    const { sortKey, sortOrder, sortType, valueType } = sortState;
+    const getValue = (content: Stats | number | string | HtmlString) => {
+      if (valueType === "stats") {
+        const { mean, std } = content as Stats;
+        if (sortType === "mean") {
+          return mean;
+        } else if (sortType === "std") {
+          return std;
+        }
+      }
+      return content;
+    };
+    if (sortKey && sortType) {
       return [...data].sort((a, b) => {
-        if (a[sortKey] < b[sortKey]) {
+        const valueA = getValue(a[sortKey]);
+        const valueB = getValue(b[sortKey]);
+
+        if (valueA < valueB) {
           return sortOrder === "asc" ? -1 : 1;
         }
-        if (a[sortKey] > b[sortKey]) {
+        if (valueA > valueB) {
           return sortOrder === "asc" ? 1 : -1;
         }
         return 0;
@@ -66,22 +95,62 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
     return data;
   }, [data, sortState]);
 
+  const getSortIcon = (key: string, sort: string | boolean) => {
+    const { sortKey, sortOrder } = sortState;
+    if (sort) {
+      if (sortKey === key) {
+        return sortOrder === "asc" ? "→" : "←";
+      }
+      return "⇄";
+    }
+    return "";
+  };
+
+  const TableCellContent = ({ content, type }: TableContentProps) => {
+    if (type === "stats") {
+      const { mean, std } = content as Stats;
+      return (
+        <>
+          {mean} ± {std}
+        </>
+      );
+    }
+    if (type === "html") {
+      const htmlContent = content as HtmlString;
+      return <span dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+    }
+    return <>{content}</>;
+  };
+
+  // TODO: use flex box in css
   return (
     <table>
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th key={column.key} onClick={() => handleSort(column.key)}>
-              {column.header} {getSortIcon(column.key)}
-            </th>
-          ))}
-        </tr>
-      </thead>
+      <thead></thead>
       <tbody>
-        {sortedData.map((item, index) => (
-          <tr key={index}>
-            {columns.map((column) => (
-              <td key={column.key}>{item[column.key]}</td>
+        {verticalHeaders.map((header) => (
+          <tr>
+            <th
+              key={header.key}
+              onClick={() => handleSort(header.key, header.sort, header.type)}
+            >
+              {header.value}
+              <span
+                className={
+                  header.key === sortState.sortKey
+                    ? "sort-icon active"
+                    : "sort-icon"
+                }
+              >
+                {getSortIcon(header.key, header.sort)}
+              </span>
+            </th>
+            {sortedData.map((item) => (
+              <td key={header.key}>
+                <TableCellContent
+                  content={item[header.key]}
+                  type={header.type}
+                />
+              </td>
             ))}
           </tr>
         ))}
