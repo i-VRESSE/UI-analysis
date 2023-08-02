@@ -101,9 +101,9 @@ const SortableTable = ({
     const { sortKey, sortOrder } = sortState;
     if (sort) {
       if (sortKey === key) {
-        return sortOrder === "asc" ? "↓" : "↑";
+        return sortOrder === "asc" ? "→" : "←";
       }
-      return "↑↓";
+      return "⇄";
     }
     return "";
   };
@@ -137,7 +137,7 @@ const SortableTable = ({
               onClick={() => handleSort(header.key, header.sort, header.type)}
             >
               {header.value}
-              <span className="sort-icon">
+              <span className={header.key===sortState.sortKey? "sort-icon active" : "sort-icon"}>
                 {getSortIcon(header.key, header.sort)}
               </span>
             </th>
