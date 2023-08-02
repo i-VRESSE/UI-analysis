@@ -1,4 +1,4 @@
-import SortableTable from "./SortableTable/SortableTable";
+import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
 export type StatID = string;
 export type BestID = string;
@@ -14,7 +14,7 @@ export interface Header {
   key: string;
   value: string;
   sort: string | boolean;
-  type: string;
+  type: ValueType;
 }
 
 export interface Cluster {
@@ -68,7 +68,7 @@ const transformClustersToData = (
   const dataKeys = Object.keys(data[0] || {});
   Object.entries(headers).forEach(([key, value]) => {
     let sort: string | boolean;
-    let type: string;
+    let type: ValueType;
     if (dataKeys.includes(key)) {
       if (key in clusters[Object.keys(clusters)[0]].best) {
         sort = false;

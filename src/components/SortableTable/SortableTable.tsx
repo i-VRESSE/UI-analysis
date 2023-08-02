@@ -1,11 +1,12 @@
 import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
+export type ValueType = 'html' | 'stats' | 'value';
 interface Header {
   key: string;
   value: string;
   sort: string | boolean;
-  type: string;
+  type: ValueType;
 }
 
 interface Stats {
@@ -17,7 +18,7 @@ type HtmlString = string;
 
 interface TableContentProps {
   content: Stats | number | string | HtmlString;
-  type: string;
+  type: ValueType;
 }
 
 interface TableData {
@@ -28,7 +29,7 @@ interface SortState {
   sortKey: string;
   sortOrder: "asc" | "desc";
   sortType: string | boolean;
-  valueType: string;
+  valueType: ValueType;
 }
 
 interface SortableTableProps {
@@ -49,7 +50,7 @@ const SortableTable = ({
     };
   });
 
-  const handleSort = (key: string, sort: string | boolean, type: string) => {
+  const handleSort = (key: string, sort: string | boolean, type: ValueType) => {
     if (sort) {
       setSortState((prevSortState) => {
         return {
