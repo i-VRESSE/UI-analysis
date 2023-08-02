@@ -58,7 +58,8 @@ tbody th {
   opacity: 0.25;
 }
 
-.sort-icon:hover, .active {
+.sort-icon:hover,
+.active {
   opacity: 1;
 }
 

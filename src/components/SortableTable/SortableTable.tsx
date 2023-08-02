@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import "./SortableTable.css";
 
-export type ValueType = 'html' | 'stats' | 'value';
+export type ValueType = "html" | "stats" | "value";
 interface Header {
   key: string;
   value: string;
@@ -37,10 +37,7 @@ interface SortableTableProps {
   verticalHeaders: Header[];
 }
 
-const SortableTable = ({
-  data,
-  verticalHeaders = [],
-}: SortableTableProps) => {
+const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
   const [sortState, setSortState] = useState<SortState>(() => {
     return {
       sortKey: verticalHeaders[0].key,
@@ -128,8 +125,7 @@ const SortableTable = ({
   // TODO: use flex box in css
   return (
     <table>
-      <thead>
-      </thead>
+      <thead></thead>
       <tbody>
         {verticalHeaders.map((header) => (
           <tr>
@@ -138,7 +134,13 @@ const SortableTable = ({
               onClick={() => handleSort(header.key, header.sort, header.type)}
             >
               {header.value}
-              <span className={header.key===sortState.sortKey? "sort-icon active" : "sort-icon"}>
+              <span
+                className={
+                  header.key === sortState.sortKey
+                    ? "sort-icon active"
+                    : "sort-icon"
+                }
+              >
                 {getSortIcon(header.key, header.sort)}
               </span>
             </th>
