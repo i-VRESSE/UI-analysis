@@ -1,16 +1,16 @@
 import SortableTable from "./SortableTable/SortableTable";
 
-type StatID = string;
-type BestID = string;
-type HtmlString = string;
-type ClusterID = string;
+export type StatID = string;
+export type BestID = string;
+export type HtmlString = string;
+export type ClusterID = string;
 
-interface Stats {
+export interface Stats {
   mean: number;
   std: number;
 }
 
-interface Header {
+export interface Header {
   key: string;
   value: string;
   sort: string | boolean;
@@ -25,13 +25,13 @@ export interface Cluster {
   stats: Record<StatID, Stats>;
 }
 
-interface Props {
+export interface Props {
   stat_labels: Record<StatID, string>;
   clusters: Record<ClusterID, Cluster>;
   maxbest?: number;
 }
 
-interface TableData {
+export interface TableData {
   [key: string]: any;
 }
 
