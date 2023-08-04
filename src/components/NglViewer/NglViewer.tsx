@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import * as NGL from 'ngl';
-import "./NglViewer.css"
+import { useEffect, useRef } from "react";
+import * as NGL from "ngl";
+import "./NglViewer.css";
 
 interface StructureViewerProps {
   fileName: string;
@@ -26,11 +26,11 @@ const StructureViewer = ({ fileName, downloadName }: StructureViewerProps) => {
         stageRef.current.handleResize();
       }
     };
-    window.addEventListener('resize', handleResize, false);
+    window.addEventListener("resize", handleResize, false);
 
     return () => {
       // Clean up event listeners on unmount
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -39,20 +39,22 @@ const StructureViewer = ({ fileName, downloadName }: StructureViewerProps) => {
       return;
     }
 
-    const dlElement = dialogRef.current.querySelector('#dl') as HTMLAnchorElement | null;
+    const dlElement = dialogRef.current.querySelector(
+      "#dl"
+    ) as HTMLAnchorElement | null;
     if (dlElement) {
-      dlElement.setAttribute('href', fileName);
+      dlElement.setAttribute("href", fileName);
       dlElement.textContent = downloadName;
-      dlElement.setAttribute('download', downloadName);
+      dlElement.setAttribute("download", downloadName);
     }
 
     dialogRef.current.showModal();
 
     if (stageRef.current) {
       stageRef.current.loadFile(fileName).then((o) => {
-        o.addRepresentation('cartoon');
+        o.addRepresentation("cartoon");
         o.autoView();
-        stageRef.current?.setParameters({ backgroundColor: 'white' });
+        stageRef.current?.setParameters({ backgroundColor: "white" });
         stageRef.current?.handleResize();
       });
     }
@@ -60,20 +62,25 @@ const StructureViewer = ({ fileName, downloadName }: StructureViewerProps) => {
 
   return (
     <div>
-      <span>&#x1F441;&nbsp;
-        <a id="viewbutton" onClick={showStructure} className="viewbutton">View</a>
+      <span>
+        &#x1F441;&nbsp;
+        <a id="viewbutton" onClick={showStructure} className="viewbutton">
+          View
+        </a>
       </span>
       <body>
         <dialog id="structureViewerDialog" ref={dialogRef}>
           <div id="viewport" ref={viewportRef} className="viewport"></div>
           <form>
-              <a id="dl" className="dl"></a>
-              <button id="Xbutton"
-                      className="Xbutton"
-                      value="cancel"
-                      formMethod="dialog">
-                      X
-              </button>
+            <a id="dl" className="dl"></a>
+            <button
+              id="Xbutton"
+              className="Xbutton"
+              value="cancel"
+              formMethod="dialog"
+            >
+              X
+            </button>
           </form>
         </dialog>
       </body>
