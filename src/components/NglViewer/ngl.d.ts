@@ -22,7 +22,7 @@ declare module "ngl" {
   }
 
   class Stage {
-    constructor(eid: HTMLElement, params?: StageParameters);
+    constructor(eid: string | HTMLElement, params?: StageParameters);
     loadFile(path: string | File | Blob): Promise<Component>;
     removeComponent(component: Component): void;
     setParameters(params: object): Component;
