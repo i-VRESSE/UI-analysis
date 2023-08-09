@@ -1,3 +1,4 @@
+import ShowStructure from "./NglViewer/ShowStructure";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
 export type StatID = string;
@@ -35,6 +36,36 @@ export interface TableData {
   [key: string]: any;
 }
 
+const extractNumber = (inputString: string) => {
+  const match = inputString.match(/\d+/); // Match one or more digits
+  return match ? parseInt(match[0], 10) : null; // Convert matched string to number
+};
+
+const getDownloadName = (rank: number | "Unclustered", bestID: string) => {
+  const clusterName =
+    rank === "Unclustered" ? "Unclustered" : `Cluster_${rank}`;
+  const structureName = `model${extractNumber(bestID)}`;
+  return `${clusterName}_${structureName}`;
+};
+
+const getHTMLString = (fileName: string, downloadName: string) => {
+  return (
+    <span>
+      &#8595;&nbsp;
+      <a href={fileName} download={downloadName}>
+        Download
+      </a>
+      &nbsp;&#x1F441;&nbsp;
+      <a
+        onClick={() => ShowStructure(fileName, downloadName)}
+        style={{ cursor: "pointer" }}
+      >
+        View
+      </a>
+    </span>
+  );
+};
+
 const transformClustersToData = (
   headers: Record<string, string>,
   clusters: Record<ClusterID, Cluster>,
@@ -58,7 +89,13 @@ const transformClustersToData = (
 
     // Unpack best
     maxBest.forEach(([bestID, best]) => {
-      transformedData[bestID] = best;
+      // Create download name
+      const downloadName = getDownloadName(rank, bestID);
+
+      // Create html string
+      const HTMLString = getHTMLString(best, downloadName);
+
+      transformedData[bestID] = HTMLString;
     });
 
     data.push(transformedData);
