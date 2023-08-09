@@ -115,10 +115,6 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
         </>
       );
     }
-    if (type === "html") {
-      const htmlContent = content as HtmlString;
-      return <span dangerouslySetInnerHTML={{ __html: htmlContent }} />;
-    }
     return <>{content}</>;
   };
 
