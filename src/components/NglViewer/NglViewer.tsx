@@ -23,8 +23,9 @@ const NglViewer = () => {
     window.addEventListener("resize", handleResize, false);
 
     return () => {
-      // Clean up event listeners on unmount
+      // Clean up
       window.removeEventListener("resize", handleResize);
+      stage.dispose();
     };
   }, []);
   return (
