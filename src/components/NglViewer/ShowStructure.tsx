@@ -1,10 +1,10 @@
-import * as NGL from "ngl";
+import { Stage, Component } from "ngl";
 
 const ShowStructure = (fileName: string, downloadName: string) => {
   const dialog = document.getElementById(
     "structureViewerDialog"
   ) as HTMLDialogElement;
-  const stage = new NGL.Stage("Nglviewport");
+  const stage = new Stage("Nglviewport");
   if (!dialog || !stage) {
     return;
   }
@@ -16,8 +16,8 @@ const ShowStructure = (fileName: string, downloadName: string) => {
   }
   dialog.showModal();
   stage.loadFile(fileName).then((o) => {
-    o.addRepresentation("cartoon");
-    o.autoView();
+    (o as Component).addRepresentation("cartoon", {});
+    (o as Component).autoView();
     stage.setParameters({ backgroundColor: "white" });
     stage.handleResize();
   });
