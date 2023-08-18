@@ -3,7 +3,6 @@ import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
 export type StatID = string;
 export type BestID = string;
-export type HtmlString = string;
 export type ClusterID = string;
 
 export interface Stats {
@@ -22,7 +21,7 @@ export interface Cluster {
   rank: number | "Unclustered";
   id: number | "-";
   size: number;
-  best: Record<BestID, HtmlString>;
+  best: Record<BestID, string>;
   stats: Record<StatID, Stats>;
 }
 
@@ -48,7 +47,7 @@ const getDownloadName = (rank: number | "Unclustered", bestID: string) => {
   return `${clusterName}_${structureName}`;
 };
 
-const getHTMLString = (fileName: string, downloadName: string) => {
+const getHTMLElement = (fileName: string, downloadName: string) => {
   return (
     <span>
       &#8595;&nbsp;
@@ -93,9 +92,7 @@ const transformClustersToData = (
       const downloadName = getDownloadName(rank, bestID);
 
       // Create html string
-      const HTMLString = getHTMLString(best, downloadName);
-
-      transformedData[bestID] = HTMLString;
+      transformedData[bestID] = getHTMLElement(best, downloadName);
     });
 
     data.push(transformedData);

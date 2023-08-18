@@ -14,15 +14,13 @@ interface Stats {
   std: number;
 }
 
-type HtmlString = string;
-
 interface TableContentProps {
-  content: Stats | number | string | HtmlString;
+  content: Stats | number | string | JSX.Element;
   type: ValueType;
 }
 
 interface TableData {
-  [key: string]: Stats | number | string | HtmlString;
+  [key: string]: Stats | number | string | JSX.Element;
 }
 
 interface SortState {
@@ -67,7 +65,7 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
 
   const sortedData = useMemo(() => {
     const { sortKey, sortOrder, sortType, valueType } = sortState;
-    const getValue = (content: Stats | number | string | HtmlString) => {
+    const getValue = (content: Stats | number | string | JSX.Element) => {
       if (valueType === "stats") {
         const { mean, std } = content as Stats;
         if (sortType === "mean") {
