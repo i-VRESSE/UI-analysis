@@ -1,4 +1,5 @@
-import ShowStructure from "./NglViewer/ShowStructure";
+import { useState } from "react";
+import NglViewer from "./NglViewer/NglViewer";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
 export type StatID = string;
@@ -47,7 +48,14 @@ const getDownloadName = (rank: number | "Unclustered", bestID: string) => {
   return `${clusterName}_${structureName}`;
 };
 
-const getHTMLElement = (fileName: string, downloadName: string) => {
+const getHTMLElement = (
+  fileName: string,
+  downloadName: string,
+  setActiveStructure: (structure: {
+    fileName: string;
+    downloadName: string;
+  }) => void
+) => {
   return (
     <span>
       &#8595;&nbsp;
@@ -56,7 +64,7 @@ const getHTMLElement = (fileName: string, downloadName: string) => {
       </a>
       &nbsp;&#x1F441;&nbsp;
       <a
-        onClick={() => ShowStructure(fileName, downloadName)}
+        onClick={() => setActiveStructure({ fileName, downloadName })}
         style={{ cursor: "pointer" }}
       >
         View
@@ -68,7 +76,11 @@ const getHTMLElement = (fileName: string, downloadName: string) => {
 const transformClustersToData = (
   headers: Record<string, string>,
   clusters: Record<ClusterID, Cluster>,
-  maxbest: number
+  maxbest: number,
+  setActiveStructure: (structure: {
+    fileName: string;
+    downloadName: string;
+  }) => void
 ): { verticalHeaders: Header[]; data: TableData[] } => {
   const data: TableData[] = [];
   const verticalHeaders: Header[] = [];
@@ -92,7 +104,11 @@ const transformClustersToData = (
       const downloadName = getDownloadName(rank, bestID);
 
       // Create html string
-      transformedData[bestID] = getHTMLElement(best, downloadName);
+      transformedData[bestID] = getHTMLElement(
+        best,
+        downloadName,
+        setActiveStructure
+      );
     });
 
     data.push(transformedData);
@@ -122,11 +138,22 @@ const transformClustersToData = (
 };
 
 export const ClusterTable = ({ headers, clusters, maxbest = 1 }: Props) => {
+  const [activeStructure, setActiveStructure] = useState({
+    fileName: "",
+    downloadName: "",
+  });
+
   const { verticalHeaders, data } = transformClustersToData(
     headers,
     clusters,
-    maxbest
+    maxbest,
+    setActiveStructure
   );
   const table = <SortableTable data={data} verticalHeaders={verticalHeaders} />;
-  return <div>{table}</div>;
+  return (
+    <div>
+      <NglViewer activeStructure={activeStructure} />
+      {table}
+    </div>
+  );
 };
