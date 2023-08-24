@@ -41,11 +41,23 @@ const extractNumber = (inputString: string) => {
   return match ? parseInt(match[0], 10) : null; // Convert matched string to number
 };
 
-const getDownloadName = (rank: number | "Unclustered", bestID: string) => {
-  const clusterName =
-    rank === "Unclustered" ? "Unclustered" : `Cluster_${rank}`;
-  const structureName = `model${extractNumber(bestID)}`;
-  return `${clusterName}_${structureName}`;
+const getDownloadName = (
+  rank: number | "Unclustered",
+  bestID: string,
+  fileName: string
+) => {
+  if (fileName === "") {
+    return "";
+  } else {
+    // Extract the extension of the file
+    const extensionMatch = fileName.match(/\.([^.]+)$/);
+    const extension = extensionMatch?.[1] || "";
+
+    const clusterName =
+      rank === "Unclustered" ? "Unclustered" : `Cluster_${rank}`;
+    const structureName = `model${extractNumber(bestID)}`;
+    return `${clusterName}_${structureName}.${extension}`;
+  }
 };
 
 const getHTMLElement = (
@@ -101,7 +113,7 @@ const transformClustersToData = (
     // Unpack best
     maxBest.forEach(([bestID, best]) => {
       // Create download name
-      const downloadName = getDownloadName(rank, bestID);
+      const downloadName = getDownloadName(rank, bestID, best);
 
       // Create html string
       transformedData[bestID] = getHTMLElement(
