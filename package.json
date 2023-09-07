@@ -15,7 +15,6 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/haddock3-analysis-components.umd.cjs",
   "module": "./dist/haddock3-analysis-components.js",
   "exports": {
     ".": {
