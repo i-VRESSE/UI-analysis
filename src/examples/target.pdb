@@ -1,5 +1,5 @@
 TITLE     Copy of examples/analysis/data/target.pdb
-TITLE     from https://github.com/haddocking/haddock3 repos
+TITLE     from https://github.com/haddocking/haddock3 repo
 ATOM      1  N   ASP A   1      13.335  39.868  -3.070  1.00  0.00
 ATOM      2  CA  ASP A   1      12.207  39.283  -2.355  1.00  0.00
 ATOM      3  C   ASP A   1      10.997  40.222  -2.329  1.00  0.00
