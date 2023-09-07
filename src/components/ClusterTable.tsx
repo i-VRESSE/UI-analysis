@@ -116,7 +116,7 @@ const transformClustersToData = (
       const downloadName = getDownloadName(rank, bestID, best);
 
       // Create html string
-      transformedData[bestID] = getHTMLElement(
+      transformedData[bestID] = bestStructureCell(
         best,
         downloadName,
         setActiveStructure
