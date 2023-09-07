@@ -1,8 +1,9 @@
+import { useState } from "react";
+import NglViewer from "./NglViewer/NglViewer";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
 export type StatID = string;
 export type BestID = string;
-export type HtmlString = string;
 export type ClusterID = string;
 
 export interface Stats {
@@ -21,7 +22,7 @@ export interface Cluster {
   rank: number | "Unclustered";
   id: number | "-";
   size: number;
-  best: Record<BestID, HtmlString>;
+  best: Record<BestID, string>;
   stats: Record<StatID, Stats>;
 }
 
@@ -35,10 +36,63 @@ export interface TableData {
   [key: string]: any;
 }
 
+const extractNumber = (inputString: string) => {
+  const match = inputString.match(/\d+/); // Match one or more digits
+  return match ? parseInt(match[0], 10) : null; // Convert matched string to number
+};
+
+const getDownloadName = (
+  rank: number | "Unclustered",
+  bestID: string,
+  fileName: string
+) => {
+  if (fileName === "") {
+    return "";
+  } else {
+    // Extract the extension of the file
+    const extensionMatch = fileName.match(/\.([^.]+)$/);
+    const extension = extensionMatch?.[1] || "";
+
+    const clusterName =
+      rank === "Unclustered" ? "Unclustered" : `Cluster_${rank}`;
+    const structureName = `model${extractNumber(bestID)}`;
+    return `${clusterName}_${structureName}.${extension}`;
+  }
+};
+
+const bestStructureCell = (
+  fileName: string,
+  downloadName: string,
+  setActiveStructure: (structure: {
+    fileName: string;
+    downloadName: string;
+  }) => void
+) => {
+  return (
+    <span>
+      &#8595;&nbsp;
+      <a href={fileName} download={downloadName}>
+        Download
+      </a>
+      &nbsp;&#x1F441;&nbsp;
+      <a
+        onClick={() => setActiveStructure({ fileName, downloadName })}
+        style={{ cursor: "pointer" }}
+      >
+        View
+      </a>
+    </span>
+  );
+};
+
 const transformClustersToData = (
   headers: Record<string, string>,
   clusters: Record<ClusterID, Cluster>,
-  maxbest: number
+  maxbest: number,
+  setActiveStructure: (structure: {
+    fileName: string;
+    downloadName: string;
+  }) => void
 ): { verticalHeaders: Header[]; data: TableData[] } => {
   const data: TableData[] = [];
   const verticalHeaders: Header[] = [];
@@ -58,7 +112,15 @@ const transformClustersToData = (
 
     // Unpack best
     maxBest.forEach(([bestID, best]) => {
-      transformedData[bestID] = best;
+      // Create download name
+      const downloadName = getDownloadName(rank, bestID, best);
+
+      // Create html string
+      transformedData[bestID] = bestStructureCell(
+        best,
+        downloadName,
+        setActiveStructure
+      );
     });
 
     data.push(transformedData);
@@ -88,11 +150,22 @@ const transformClustersToData = (
 };
 
 export const ClusterTable = ({ headers, clusters, maxbest = 1 }: Props) => {
+  const [activeStructure, setActiveStructure] = useState({
+    fileName: "",
+    downloadName: "",
+  });
+
   const { verticalHeaders, data } = transformClustersToData(
     headers,
     clusters,
-    maxbest
+    maxbest,
+    setActiveStructure
   );
   const table = <SortableTable data={data} verticalHeaders={verticalHeaders} />;
-  return <div>{table}</div>;
+  return (
+    <div>
+      <NglViewer activeStructure={activeStructure} />
+      {table}
+    </div>
+  );
 };

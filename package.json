@@ -15,7 +15,6 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/haddock3-analysis-components.umd.cjs",
   "module": "./dist/haddock3-analysis-components.js",
   "exports": {
     ".": {
@@ -54,5 +53,8 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0"
+  },
+  "dependencies": {
+    "ngl": "^2.1.1"
   }
 }

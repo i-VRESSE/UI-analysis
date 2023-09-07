@@ -65,16 +65,11 @@ export const clusters: Record<ClusterID, Cluster> = {
       },
     },
     best: {
-      "Nr 01 best structure":
-        '<span>&#8595;&nbsp;<a href="../../01_rigidbody/rigidbody_18.pdb" download="unclustered_model1.pdb">Download</a>&nbsp;&#x1F441;&nbsp;<a onClick="showStructure(\'../../01_rigidbody/rigidbody_18.pdb\', \'unclustered_model1.pdb\')" style="cursor:pointer;">View</a></span>',
-      "Nr 02 best structure":
-        '<span>&#8595;&nbsp;<a href="../../01_rigidbody/rigidbody_4.pdb" download="unclustered_model2.pdb">Download</a>&nbsp;&#x1F441;&nbsp;<a onClick="showStructure(\'../../01_rigidbody/rigidbody_4.pdb\', \'unclustered_model2.pdb\')" style="cursor:pointer;">View</a></span>',
-      "Nr 03 best structure":
-        '<span>&#8595;&nbsp;<a href="../../01_rigidbody/rigidbody_2.pdb" download="unclustered_model3.pdb">Download</a>&nbsp;&#x1F441;&nbsp;<a onClick="showStructure(\'../../01_rigidbody/rigidbody_2.pdb\', \'unclustered_model3.pdb\')" style="cursor:pointer;">View</a></span>',
-      "Nr 04 best structure":
-        '<span>&#8595;&nbsp;<a href="../../01_rigidbody/rigidbody_14.pdb" download="unclustered_model4.pdb">Download</a>&nbsp;&#x1F441;&nbsp;<a onClick="showStructure(\'../../01_rigidbody/rigidbody_14.pdb\', \'unclustered_model4.pdb\')" style="cursor:pointer;">View</a></span>',
-      "Nr 05 best structure":
-        '<span>&#8595;&nbsp;<a href="../../01_rigidbody/rigidbody_16.pdb" download="unclustered_model5.pdb">Download</a>&nbsp;&#x1F441;&nbsp;<a onClick="showStructure(\'../../01_rigidbody/rigidbody_16.pdb\', \'unclustered_model5.pdb\')" style="cursor:pointer;">View</a></span>',
+      "Nr 01 best structure": "/src/examples/target.pdb",
+      "Nr 02 best structure": "/src/examples/target.pdb",
+      "Nr 03 best structure": "/src/examples/target.pdb",
+      "Nr 04 best structure": "/src/examples/target.pdb",
+      "Nr 05 best structure": "/src/examples/target.pdb",
     },
   },
 };
