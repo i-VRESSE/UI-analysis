@@ -60,7 +60,7 @@ const getDownloadName = (
   }
 };
 
-const getHTMLElement = (
+const bestStructureCell = (
   fileName: string,
   downloadName: string,
   setActiveStructure: (structure: {
