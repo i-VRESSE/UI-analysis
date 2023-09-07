@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import * as NGL from "ngl";
+import {Stage, type Component} from "ngl";
 import "./NglViewer.css";
 interface ActiveStructure {
   fileName: string;
