@@ -11,15 +11,15 @@ interface InputType {
 const NglViewer = ({ activeStructure }: InputType) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const stage = useRef<NGL.Stage | null>(null);
+  const stage = useRef<Stage | null>(null);
 
   useEffect(() => {
     if (!viewportRef.current) {
       return;
     }
 
-    // Create NGL Stage object
-    stage.current = new NGL.Stage(viewportRef.current);
+    // Create Stage object
+    stage.current = new Stage(viewportRef.current);
   }, []);
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const NglViewer = ({ activeStructure }: InputType) => {
       dialogRef.current?.showModal();
       stage.current.removeAllComponents();
       stage.current.loadFile(activeStructure.fileName).then((o) => {
-        (o as NGL.Component).addRepresentation("cartoon", {});
-        (o as NGL.Component).autoView();
+        (o as Component).addRepresentation("cartoon", {});
+        (o as Component).autoView();
         if (stage.current === null) {
           return;
         }
