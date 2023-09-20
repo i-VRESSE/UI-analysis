@@ -10,12 +10,13 @@
     "access": "public"
   },
   "license": "Apache-2.0",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "files": [
     "dist"
   ],
   "module": "./dist/haddock3-analysis-components.js",
+  "types": "./dist/lib.d.ts",
   "exports": {
     ".": {
       "import": {
