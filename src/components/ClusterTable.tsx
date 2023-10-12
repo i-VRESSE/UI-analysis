@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NglViewer from "./NglViewer/NglViewer";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
@@ -92,7 +92,8 @@ const transformClustersToData = (
   setActiveStructure: (structure: {
     fileName: string;
     downloadName: string;
-  }) => void
+  }) => void,
+  cleaned: boolean
 ): { verticalHeaders: Header[]; data: TableData[] } => {
   const data: TableData[] = [];
   const verticalHeaders: Header[] = [];
@@ -112,12 +113,13 @@ const transformClustersToData = (
 
     // Unpack best
     maxBest.forEach(([bestID, best]) => {
+      const cbest = cleaned ? best + ".gz" : best;
       // Create download name
       const downloadName = getDownloadName(rank, bestID, best);
 
       // Create html string
       transformedData[bestID] = bestStructureCell(
-        best,
+        cbest,
         downloadName,
         setActiveStructure
       );
@@ -149,18 +151,41 @@ const transformClustersToData = (
   return { verticalHeaders, data };
 };
 
+async function outputIsCleaned(clusters: Record<string, Cluster>) {
+  const firstCluster = Object.values(clusters)[0];
+  const firstBest = Object.values(firstCluster.best)[0];
+  const response = await fetch(firstBest);
+  // If not found expect firstBest + .gz to do exist
+  return response.status === 404;
+}
+
 export const ClusterTable = ({ headers, clusters, maxbest = 1 }: Props) => {
   const [activeStructure, setActiveStructure] = useState({
     fileName: "",
     downloadName: "",
   });
+  const [data, setData] = useState<TableData[]>([]);
+  const [verticalHeaders, setVerticalHeaders] = useState<Header[]>([]);
 
-  const { verticalHeaders, data } = transformClustersToData(
-    headers,
-    clusters,
-    maxbest,
-    setActiveStructure
-  );
+  useEffect(() => {
+    async function process() {
+      const cleaned = await outputIsCleaned(clusters);
+      const { verticalHeaders, data } = transformClustersToData(
+        headers,
+        clusters,
+        maxbest,
+        setActiveStructure,
+        cleaned
+      );
+      setData(data);
+      setVerticalHeaders(verticalHeaders);
+    }
+    process();
+  }, [clusters, headers, maxbest]);
+
+  if (verticalHeaders.length === 0) {
+    return <>Loading...</>;
+  }
   const table = <SortableTable data={data} verticalHeaders={verticalHeaders} />;
   return (
     <div>
