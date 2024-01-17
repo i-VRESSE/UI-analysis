@@ -28,9 +28,8 @@ Generated `dist/` folder.
 
 ## Publish
 
-```bash
-npm publish
-```
+Create GH release.
+Which will trigger a [.github/workflows/publish.yml](GH action) to publish the package to npm.
 
 ## Development
 
