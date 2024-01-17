@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Stage, type Component } from "ngl";
+import { Stage } from "ngl";
 import "./NglViewer.css";
 interface ActiveStructure {
   fileName: string;
@@ -32,14 +32,25 @@ const NglViewer = ({ activeStructure }: InputType) => {
       dialogRef.current?.showModal();
       stage.current.removeAllComponents();
       stage.current.loadFile(activeStructure.fileName).then((o) => {
-        (o as Component).addRepresentation("cartoon", {});
-        (o as Component).autoView();
+        if (o === undefined) {
+          console.error("Could not load file");
+          return;
+        }
+        o.addRepresentation("cartoon", { sele: "protein" });
+        o.addRepresentation("ball+stick", { sele: "ligand" });
+
+        o.autoView();
+
         if (stage.current === null) {
           return;
         }
-        let backgroundColor = "white"
-        if (window && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          backgroundColor = "black"
+        let backgroundColor = "white";
+        if (
+          window &&
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          backgroundColor = "black";
         }
         stage.current.setParameters({ backgroundColor });
         stage.current.handleResize();
