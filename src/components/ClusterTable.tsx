@@ -33,7 +33,7 @@ export interface Props {
 }
 
 export interface TableData {
-  [key: string]: any;
+  [key: string]: number | string | JSX.Element | Stats;
 }
 
 const extractNumber = (inputString: string) => {
