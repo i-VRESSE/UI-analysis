@@ -115,6 +115,7 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
     }
     return <>{content}</>;
   };
+  console.log(sortedData)
 
   // TODO: use flex box in css
   return (
@@ -122,9 +123,8 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
       <thead></thead>
       <tbody>
         {verticalHeaders.map((header) => (
-          <tr>
+          <tr key={header.key}>
             <th
-              key={header.key}
               onClick={() => handleSort(header.key, header.sort, header.type)}
             >
               {header.value}
@@ -138,8 +138,8 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
                 {getSortIcon(header.key, header.sort)}
               </span>
             </th>
-            {sortedData.map((item) => (
-              <td key={header.key}>
+            {sortedData.map((item, i) => (
+              <td key={header.key + i}>
                 <TableCellContent
                   content={item[header.key]}
                   type={header.type}
