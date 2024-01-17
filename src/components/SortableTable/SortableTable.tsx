@@ -115,7 +115,6 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
     }
     return <>{content}</>;
   };
-  console.log(sortedData)
 
   // TODO: use flex box in css
   return (

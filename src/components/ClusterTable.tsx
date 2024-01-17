@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import NglViewer from "./NglViewer/NglViewer";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 
@@ -155,11 +155,10 @@ export const ClusterTable = ({ headers, clusters, maxbest = 1 }: Props) => {
     downloadName: "",
   });
 
-  const { verticalHeaders, data } = transformClustersToData(
-    headers,
-    clusters,
-    maxbest,
-    setActiveStructure
+  const { verticalHeaders, data } = useMemo(
+    () =>
+      transformClustersToData(headers, clusters, maxbest, setActiveStructure),
+    [headers, clusters, maxbest, setActiveStructure]
   );
   const table = <SortableTable data={data} verticalHeaders={verticalHeaders} />;
   return (

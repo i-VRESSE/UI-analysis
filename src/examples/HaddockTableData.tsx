@@ -123,5 +123,5 @@ export const clusters: Record<ClusterID, Cluster> = {
       "Nr 04 best structure": "/src/examples/target.pdb",
       "Nr 05 best structure": "/src/examples/target.pdb",
     },
-  }
+  },
 };
