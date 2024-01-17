@@ -31,7 +31,7 @@ Generated `dist/` folder.
 ## Publish
 
 Create [GitHub release](https://github.com/i-VRESSE/haddock3-analysis-components/releases/new),
-which will trigger a [.github/workflows/publish.yml](GitHub action) that publishes the package to npmjs.
+which will trigger a [GitHub action](.github/workflows/publish.yml) that publishes the package to npmjs.
 
 ## Development
 
