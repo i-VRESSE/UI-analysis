@@ -37,7 +37,11 @@ const NglViewer = ({ activeStructure }: InputType) => {
         if (stage.current === null) {
           return;
         }
-        stage.current.setParameters({ backgroundColor: "white" });
+        let backgroundColor = "white"
+        if (window && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          backgroundColor = "black"
+        }
+        stage.current.setParameters({ backgroundColor });
         stage.current.handleResize();
       });
     }

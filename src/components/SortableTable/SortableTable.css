@@ -1,18 +1,34 @@
 /* table.css */
 
+:root {
+  --background-color: #f2f2f2;
+  --text-color: #000;
+  --border-color: #ddd;
+  }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #333;
+    --text-color: #fff;
+    --border-color: #555;
+  }
+}
+
 table {
   font-family: Arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
   font-size: 16px;
   table-layout: auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 th {
   font-weight: bold;
-  background-color: #f2f2f2;
+  background-color: var(--background-color);
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   text-align: left;
   height: 10px;
   position: sticky;
@@ -21,14 +37,14 @@ th {
 }
 
 td {
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   padding: 8px;
   text-align: left;
   height: 10px;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color:  var(--background-color);
 }
 
 thead th {
