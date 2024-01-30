@@ -1,6 +1,6 @@
 import { Cluster, ClusterID } from "../components/ClusterTable";
-import { StatID } from "../components/StatID";
 import { Structure } from "../components/StructureTable";
+import { StatID } from "../components/table";
 
 export const headers: Record<StatID, string> = {
   rank: "Cluster Rank",

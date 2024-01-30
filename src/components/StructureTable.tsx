@@ -3,7 +3,7 @@ import NglViewer from "./NglViewer/NglViewer";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
 import type { Header, StatID, TableData } from "./table";
 
-interface Structure {
+export interface Structure {
   rank: number;
   model: string;
   stats: Record<StatID, number>;
