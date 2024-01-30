@@ -1,22 +1,10 @@
 import { useMemo, useState } from "react";
 import NglViewer from "./NglViewer/NglViewer";
 import SortableTable, { ValueType } from "./SortableTable/SortableTable";
+import { StatID, Stats, Header, TableData } from "./table";
 
-export type StatID = string;
 export type BestID = string;
 export type ClusterID = string;
-
-export interface Stats {
-  mean: number;
-  std: number;
-}
-
-export interface Header {
-  key: string;
-  value: string;
-  sort: string | boolean;
-  type: ValueType;
-}
 
 export interface Cluster {
   rank: number | "Unclustered";
@@ -30,10 +18,6 @@ export interface Props {
   headers: Record<StatID, string>;
   clusters: Record<ClusterID, Cluster>;
   maxbest?: number;
-}
-
-export interface TableData {
-  [key: string]: number | string | JSX.Element | Stats;
 }
 
 const extractNumber = (inputString: string) => {

@@ -1,4 +1,6 @@
-import { Cluster, ClusterID, StatID } from "../components/ClusterTable";
+import { Cluster, ClusterID } from "../components/ClusterTable";
+import { StatID } from "../components/StatID";
+import { Structure } from "../components/StructureTable";
 
 export const headers: Record<StatID, string> = {
   rank: "Cluster Rank",
@@ -125,3 +127,56 @@ export const clusters: Record<ClusterID, Cluster> = {
     },
   },
 };
+
+export const headers4structuretable: Record<StatID, string> = {
+  rank: "Structure Rank",
+  path: "Structure Name",
+  score: "HADDOCK score [a.u.]",
+  vdw: "Van der Waals Energy",
+  elec: "Electrostatic Energy",
+  air: "Restraints Energy",
+  desolv: "Desolvation Energy",
+  irmsd: "interface RMSD [A]",
+  lrmsd: "ligand RMSD [A]",
+  ilrmsd: "interface-ligand RMSD [A]",
+  fnat: "Fraction of Common Contacts",
+  DOCKQ: "DOCKQ",
+  bsa: "Buried Surface Area [A^2]",
+};
+
+export const structures: Structure[] = [
+  {
+    rank: 1,
+    model: "/src/examples/target.pdb",
+    stats: {
+      score: -5.856,
+      vdw: -2.978,
+      elec: -9.693,
+      air: 847.545,
+      desolv: 11.665,
+      irmsd: 1.808,
+      lrmsd: 5.072,
+      ilrmsd: 3.057,
+      fnat: 0.569,
+      DOCKQ: 0.581,
+      bsa: 0.123,
+    },
+  },
+  {
+    rank: 2,
+    model: "/src/examples/cluster_1_model_1.pdb.gz",
+    stats: {
+      score: -4.123,
+      vdw: -1.234,
+      elec: -8.765,
+      air: 765.432,
+      desolv: 9.876,
+      irmsd: 1.234,
+      lrmsd: 4.321,
+      ilrmsd: 2.345,
+      fnat: 0.456,
+      DOCKQ: 0.987,
+      bsa: 0.456,
+    },
+  },
+];
