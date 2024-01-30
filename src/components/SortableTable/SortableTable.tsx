@@ -107,6 +107,9 @@ const SortableTable = ({ data, verticalHeaders = [] }: SortableTableProps) => {
   const TableCellContent = ({ content, type }: TableContentProps) => {
     if (type === "stats") {
       const { mean, std } = content as Stats;
+      if (std === 0) {
+        return <>{mean}</>;
+      }
       return (
         <>
           {mean} ± {std}
