@@ -1,12 +1,9 @@
 import { useEffect, useRef } from "react";
 import { Stage } from "ngl";
 import "./NglViewer.css";
-interface ActiveStructure {
-  fileName: string;
-  downloadName: string;
-}
+
 interface InputType {
-  activeStructure: ActiveStructure;
+  activeStructure: string;
 }
 const NglViewer = ({ activeStructure }: InputType) => {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -22,16 +19,18 @@ const NglViewer = ({ activeStructure }: InputType) => {
     stage.current = new Stage(viewportRef.current);
   }, []);
 
+  const filename = activeStructure.split("/").pop();
+
   useEffect(() => {
     if (stage.current === null) {
       return;
     }
-    if (activeStructure.fileName === "") {
+    if (activeStructure === "") {
       dialogRef.current?.close();
     } else {
       dialogRef.current?.showModal();
       stage.current.removeAllComponents();
-      stage.current.loadFile(activeStructure.fileName).then((o) => {
+      stage.current.loadFile(activeStructure).then((o) => {
         if (o === undefined) {
           console.error("Could not load file");
           return;
@@ -62,13 +61,8 @@ const NglViewer = ({ activeStructure }: InputType) => {
     <dialog id="structureViewerDialog" ref={dialogRef}>
       <div id="Nglviewport" ref={viewportRef} className="viewport"></div>
       <form>
-        <a
-          id="dl"
-          className="dl"
-          href={activeStructure.fileName}
-          download={activeStructure.downloadName}
-        >
-          {activeStructure.downloadName}
+        <a id="dl" className="dl" href={activeStructure} download={filename}>
+          {filename}
         </a>
         <button
           id="Xbutton"
