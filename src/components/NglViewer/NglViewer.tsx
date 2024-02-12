@@ -44,11 +44,7 @@ const NglViewer = ({ activeStructure }: InputType) => {
           return;
         }
         let backgroundColor = "white";
-        if (
-          window &&
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches
-        ) {
+        if (document?.documentElement?.classList.contains('dark') || window?.matchMedia("(prefers-color-scheme: dark)").matches) {
           backgroundColor = "black";
         }
         stage.current.setParameters({ backgroundColor });
