@@ -103,7 +103,7 @@ function CellContent({
         {cell.mean} ± {cell.std}
       </>
     );
-  } else if (header2.type === "structure" && typeof cell === "string") {
+  } else if (header2.type === "structure" && typeof cell === "string" && cell !== "") {
     const href = cell;
     const filename = href.split("/").pop();
     return (

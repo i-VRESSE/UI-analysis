@@ -109,7 +109,7 @@ export const clusters: Cluster[] = [
     best1: "/src/examples/target.pdb",
     best2: "/src/examples/target.pdb",
     best3: "/src/examples/target.pdb",
-    best4: "/src/examples/target.pdb",
+    best4: "",
   },
 ];
 
