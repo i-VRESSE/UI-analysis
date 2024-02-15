@@ -1,2 +1,3 @@
 import { ClusterTable } from "./components/ClusterTable";
-export { ClusterTable };
+import { StructureTable } from "./components/StructureTable";
+export { ClusterTable, StructureTable };

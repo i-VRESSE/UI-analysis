@@ -1,0 +1,18 @@
+.sorted,
+.sortable {
+  cursor: pointer;
+}
+
+.sort-icon {
+  opacity: 0.25;
+}
+
+.sorted .sort-icon,
+.sortable:hover .sort-icon {
+  opacity: 1;
+}
+
+.table-header[scope="row"] {
+  display: flex;
+  justify-content: space-between;
+}

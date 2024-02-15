@@ -1,10 +1,22 @@
 import { ClusterTable } from "./components/ClusterTable";
-import { headers, clusters } from "./examples/HaddockTableData";
+import { StructureTable } from "./components/StructureTable";
+import {
+  clusters,
+  headers4structuretable,
+  structures,
+  clusterHeaders,
+} from "./examples/HaddockTableData";
 
 const App = () => {
   return (
     <>
-      <ClusterTable headers={headers} clusters={clusters} maxbest={4} />
+      <h1>Clustered</h1>
+      <ClusterTable headers={clusterHeaders} clusters={clusters} />
+      <h1>Unclustered</h1>
+      <StructureTable
+        headers={headers4structuretable}
+        structures={structures}
+      />
     </>
   );
 };
