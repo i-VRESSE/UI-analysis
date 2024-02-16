@@ -18,7 +18,6 @@ export interface Stats {
 }
 
 export interface DataItem {
-  id: number;
   [key: string]: number | string | Stats;
 }
 
@@ -133,6 +132,14 @@ interface SortState {
 
 type Orientation = "top" | "left";
 
+function itemKeyFinder(item: DataItem, itemKey: string) {
+  const value = item[itemKey];
+  if (typeof value === "object") {
+    return value.mean.toString();
+  }
+  return value.toString();
+}
+
 export function SortableTable({
   orientation = "top",
   headers,
@@ -144,8 +151,11 @@ export function SortableTable({
   data: DataItem[];
   className: string;
 }) {
+  const initialSortedHeader = headers.find((h) => h.sorted !== undefined);
+  // use the first header if no header is sorted as key for a data item
+  const itemKey = (initialSortedHeader ?? headers[0]).key;
+
   const [sortState, setSortState] = useState<SortState>(() => {
-    const initialSortedHeader = headers.find((h) => h.sorted !== undefined);
     if (initialSortedHeader && initialSortedHeader.sorted !== undefined) {
       return {
         key: initialSortedHeader.key,
@@ -204,9 +214,12 @@ export function SortableTable({
           </thead>
           <tbody>
             {sortedData.map((row) => (
-              <tr key={row.id} className="table-item">
+              <tr key={itemKeyFinder(row, itemKey)} className="table-item">
                 {headers.map((header) => (
-                  <td key={`${row.id}-${header.key}`} className="table-cell">
+                  <td
+                    key={`${itemKeyFinder(row, itemKey)}-${header.key}`}
+                    className="table-cell"
+                  >
                     <CellContent
                       data={row}
                       header={header}
@@ -237,7 +250,10 @@ export function SortableTable({
                   orientation={orientation}
                 />
                 {sortedData.map((col) => (
-                  <td key={`${col.id}-${header.key}`} className="table-cell">
+                  <td
+                    key={`${itemKeyFinder(col, itemKey)}-${header.key}`}
+                    className="table-cell"
+                  >
                     <CellContent
                       data={col}
                       header={header}
