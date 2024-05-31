@@ -33,7 +33,7 @@ Generated `dist/` folder.
 Create [GitHub release](https://github.com/i-VRESSE/haddock3-analysis-components/releases/new),
 which will trigger a [GitHub action](.github/workflows/publish.yml) that publishes the package to npmjs.
 
-To publish a pre-release version, create a release with a tag like `1.0.0-next.0` and check the pre-release checkbox.
+To publish a pre-release version, update version in package.json to something like `1.0.0-next.0`, create a release with a tag equal to the version in package.json and check the pre-release checkbox.
 
 ## Development
 
