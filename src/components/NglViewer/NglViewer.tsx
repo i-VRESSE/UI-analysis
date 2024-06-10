@@ -35,14 +35,13 @@ const NglViewer = ({ activeStructure }: InputType) => {
           console.error("Could not load file");
           return;
         }
-        o.addRepresentation("cartoon", { sele: "protein" });
-        o.addRepresentation("ball+stick", { sele: "ligand" });
-
-        o.autoView();
 
         if (stage.current === null) {
           return;
         }
+        stage.current.defaultFileRepresentation(o);
+
+        o.autoView();
         let backgroundColor = "white";
         if (document?.documentElement?.classList.contains("dark")) {
           backgroundColor = "black";
