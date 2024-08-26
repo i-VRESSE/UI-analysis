@@ -15,7 +15,7 @@ npm install @i-vresse/haddock3-analysis-components
 
 ## Usage
 
-See [example.html](example.html) for a simple example which uses the latest library from npm.
+See [example.html](example.html) for a simple example which uses the latest library from npm using https://esm.sh/ for libray hosting.
 
 See [example.local.html](example.local.html) for a simple example which uses the library from local `dist/` folder.
 Should be hosted on a static web server like `python3 -m http.server`.
@@ -41,7 +41,7 @@ To publish a pre-release version, update version in package.json to something li
 npm run dev
 ```
 
-This will render the ./index.html page with the src/App.tsx component.
+This will render the stories (stories/\*_/_.stories.tsx) of the components in the browser using [ladle](https://ladle.dev/).
 
 ## Code style
 

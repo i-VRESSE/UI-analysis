@@ -93,7 +93,9 @@ function CellContent({
 }) {
   const cell = data[header.key];
   const header2 = { ...defaultHeader, ...header };
-  if (header2.type === "stats" && typeof cell === "object") {
+  if (cell === null || cell === undefined) {
+    return <>NA</>;
+  } else if (header2.type === "stats" && typeof cell === "object") {
     if (cell.std === 0) {
       return <>{cell.mean}</>;
     }
@@ -134,6 +136,9 @@ type Orientation = "top" | "left";
 
 function itemKeyFinder(item: DataItem, itemKey: string) {
   const value = item[itemKey];
+  if (value === null || value === undefined) {
+    return "NA";
+  }
   if (typeof value === "object") {
     return value.mean.toString();
   }
@@ -174,7 +179,11 @@ export function SortableTable({
       return data;
     }
     const getValue = (content: Stats | number | string) => {
-      if (header.type === "stats" && typeof content === "object") {
+      if (
+        header.type === "stats" &&
+        content != null &&
+        typeof content === "object"
+      ) {
         return content.mean;
       }
       return content;
