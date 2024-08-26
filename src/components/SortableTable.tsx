@@ -93,7 +93,9 @@ function CellContent({
 }) {
   const cell = data[header.key];
   const header2 = { ...defaultHeader, ...header };
-  if (header2.type === "stats" && typeof cell === "object") {
+  if (cell === null || cell === undefined) {
+    return <>NA</>;
+  } else if (header2.type === "stats" && typeof cell === "object") {
     if (cell.std === 0) {
       return <>{cell.mean}</>;
     }
