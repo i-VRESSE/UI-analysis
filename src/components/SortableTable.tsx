@@ -136,6 +136,9 @@ type Orientation = "top" | "left";
 
 function itemKeyFinder(item: DataItem, itemKey: string) {
   const value = item[itemKey];
+  if (value === null || value === undefined) {
+    return "NA";
+  }
   if (typeof value === "object") {
     return value.mean.toString();
   }
@@ -176,7 +179,11 @@ export function SortableTable({
       return data;
     }
     const getValue = (content: Stats | number | string) => {
-      if (header.type === "stats" && typeof content === "object") {
+      if (
+        header.type === "stats" &&
+        content != null &&
+        typeof content === "object"
+      ) {
         return content.mean;
       }
       return content;
