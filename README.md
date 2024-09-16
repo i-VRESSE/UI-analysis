@@ -1,5 +1,15 @@
 # React components for Haddock3 analysis
 
+> [!CAUTION]
+> This package has been superseded by 
+> [@i-vresse/haddock3-ui](https://www.npmjs.com/package/@i-vresse/haddock3-ui) package.
+>
+> Please do not use this package anymore.
+> 
+> The ClusterTable and StructureTable can be imported respectivly with
+> `import { ClusterTable } from "@i-vresse/haddock3-ui/table/ClusterTable"` and
+> `import { StructureTable } from "@i-vresse/haddock3-ui/table/StructureTable"`.
+
 [![Research Software Directory Badge](https://img.shields.io/badge/rsd-00a3e3.svg)](https://research-software-directory.org/software/haddock3-analysis-components)
 [![npmjs.com](https://img.shields.io/npm/v/@i-vresse/haddock3-analysis-components.svg?style=flat)](https://www.npmjs.com/package/@i-vresse/haddock3-analysis-components)
 [![Node.js CI](https://github.com/i-VRESSE/haddock3-analysis-components/actions/workflows/ci.yml/badge.svg)](https://github.com/i-VRESSE/haddock3-analysis-components/actions/workflows/ci.yml)
